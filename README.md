@@ -8,7 +8,7 @@
 
 ### Getting Started
 ##### Setup your game
-    1. Configure your game area by using .config. Each area object will have a name, width, height and gravity.
+1. Configure your game area by using .config. Each area object will have a name, width, height and gravity.
 ```typescript
     import { GameAreaComponent, ObjectComponent } from '2d-gaming';
     import { TwoDGaming } from '2d-gaming';
