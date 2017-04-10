@@ -54,7 +54,7 @@ export class ObjectComponent {
             this.y = y;
             let groundCount = 0;
             this.speedX = 0;
-            this.speedY = 1;
+            this.speedY = 0;
             this.gravity = game.gravity;
             this.gravitySpeed = 0;
             this.ctx = game.context
