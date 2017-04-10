@@ -81,6 +81,7 @@
         }
     }
   ```
+  ### GameComponent
     1. functions
         |  Call      | Description         | Paramaters |
         | ----       |:-------------------:| ----------:|
