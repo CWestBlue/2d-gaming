@@ -5,9 +5,9 @@ This is an Angular package fo developing 2d games in angular.
 
 
 ### Installing
-    1. Run npm instll 2d-gaming
-    2. Import { TwoDGaming } from '2d-gaming'; Into your module
-    3. Import { GameAreaComponent, ObjectComponent } from '2d-gaming' into the file of your game.
+1. Run npm instll 2d-gaming
+2. Import { TwoDGaming } from '2d-gaming'; Into your module
+3. Import { GameAreaComponent, ObjectComponent } from '2d-gaming' into the file of your game.
 
 
 ### Getting Started
@@ -85,26 +85,26 @@ This is an Angular package fo developing 2d games in angular.
         }
     }
   ```
-  ### GameComponent
-        |  Call      | Description         | Paramaters |
-        | ----       |:-------------------:| ----------:|
-        | .update()  | redraws the image   | groundObject barrier=true/false|
-        | .newPos()  | updates the pos of the image | none |
-        | .hitGround() | Checks if the object is on the ground | areaObject ground object |
-        | .crashWith() | checks if hits another object | otherObject |
+### GameComponent
+####Functions
+|  Call      | Description         | Paramaters |
+| ----       |:-------------------:| ----------:|
+| .update()  | redraws the image   | groundObject barrier=true/false|
+| .newPos()  | updates the pos of the image | none |
+| .hitGround() | Checks if the object is on the ground | areaObject ground object |
+| .crashWith() | checks if hits another object | otherObject |
 
-        Attributes
-
-        | name      | Description       |
-        | --------- | ----------------- |
-        | width     | width of object   |
-        | height    | height of object  |
-        | x         | x postion on plane|
-        | y         | y postion on plane|
-        | speedX    | speed on the x axis |
-        | speedY    | speed on the y axis |
-        | gravitySpeed | the rate of failling speed increases |
-        | text | text of object if it is of type text |
+####Arributs
+| name      | Description       |
+| --------- | ----------------- |
+| width     | width of object   |
+| height    | height of object  |
+| x         | x postion on plane|
+| y         | y postion on plane|
+| speedX    | speed on the x axis |
+| speedY    | speed on the y axis |
+| gravitySpeed | the rate of failling speed increases |
+| text | text of object if it is of type text |
 
     
 
