@@ -1,0 +1,11 @@
+#canvas { 
+    border: 1px solid black;
+    height: 40%;
+    width: 100%;
+}
+
+@media (max-width: 414px ) {
+#canvas {
+    height: 300px;
+}
+}
