@@ -15,7 +15,6 @@ This is an Angular package fo developing 2d games in angular.
 1. Configure your game area by using .config. Each area object will have a name, width, height and gravity.
 ```typescript
     import { GameAreaComponent, ObjectComponent } from '2d-gaming';
-    import { TwoDGaming } from '2d-gaming';
 
     @Component({
     selector: 'app-game',
@@ -29,20 +28,24 @@ This is an Angular package fo developing 2d games in angular.
     height: '300px';
     gravity: 0;
     } // the attributes each plane will have
-    gameArea.congfig(attributes) // initializes the plane
+    this.gameArea.congfig(attributes) // initializes the plane
     };
+  ```
+  ```html
+  <!--- In html place this tag -->
+  <app-game-area></app-game-area>
   ```
   2. Now you can add a player. The ObjectComponent.create() takes in a width, height, color or image url, x position, y position, a gameAreaObject, what type it is color or image.
   ```typescript
-    player = new ObjectComponent(); // a player created out of object
-    player.create(20, 20, 'green', 150, 150, this.gameArea, 'color');
+    this.player = new ObjectComponent(); // a player created out of object
+    this.player.create(20, 20, 'green', 150, 150, this.gameArea, 'color');
     // This is (width, height, color or image url, x pos, y pos, gameAreaObject/areaName, ofType color or image)
 
   ```
 
   3.  We need to create an update game function that will run ever frame rate. The reason we do this is an object add to the game plane will not be updated for example the previous spot. It would just add a second one.
   ```typescript
-    setInterval(() => updateGameArea(), 20)
+    setInterval(() => this.updateGameArea(), 20)
 
     updateGameArea() {
         this.gaemArea.clear();
@@ -54,35 +57,38 @@ This is an Angular package fo developing 2d games in angular.
   ```
   4. Lets give our player movement. object.speedX & speedY move the object in that direction of y or x until set to 0.
   ```typescript
-     @HostListener('document:keydown', ['$event'])
-     onKeyup(e: KeyboardEvent) {
+     @HostListener('document:keyup', ['$event'])
+
+    onKeyup(e: KeyboardEvent) {
         const code = e.keyCode;
         switch (code) {
-            case 37: this.player.speedX = 0; break;
-            case 39: this.player.speedX = 0; break;
-            case 38: this.player.speedY = 0; break;
-            case 40: this.player.speedY = 0; break;
+          case 37: this.player.speedX = 0; break;
+          case 39: this.player.speedX = 0; break;
+          case 38: this.player.speedY = 0; break;
+          case 40: this.player.speedY = 0; break;
         }
     }
+
+    @HostListener('document:keydown', ['$event'])
 
     onkeydown(e: KeyboardEvent) {
         const code = e.keyCode;
         // Right Arrow
-        if (code === 39) {
-            this.player.speedX = 1.5; // move right
-        }
-        // Left Arrow
-        if (code === 37) {
-            this.player.speedX = -1.5; //move left
-        }
-        // Up Arrow
-        if (code === 38) {
-            this.player.speedY = -1.5; // move up
-        }
-        // Down Arrow
-        if (code === 40) {
-            this.player.speedY = 1.5; // move down
-        }
+      if (code === 39) {
+          this.player.speedX = 1.5; // move right
+      }
+      // Left Arrow
+      if (code === 37) {
+          this.player.speedX = -1.5; //move left
+      }
+      // Up Arrow
+      if (code === 38) {
+          this.player.speedY = -1.5; // move up
+      }
+      // Down Arrow
+      if (code === 40) {
+          this.player.speedY = 1.5; // move down
+      }
     }
   ```
 ### GameComponent
