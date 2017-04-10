@@ -82,14 +82,15 @@
     }
   ```
   ### GameComponent
-    1. functions
         |  Call      | Description         | Paramaters |
         | ----       |:-------------------:| ----------:|
         | .update()  | redraws the image   | groundObject barrier=true/false|
         | .newPos()  | updates the pos of the image | none |
         | .hitGround() | Checks if the object is on the ground | areaObject ground object |
         | .crashWith() | checks if hits another object | otherObject |
-    2. attributes
+
+        Attributes
+
         | name      | Description       |
         | --------- | ----------------- |
         | width     | width of object   |
