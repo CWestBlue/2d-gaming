@@ -2,8 +2,8 @@
 
 ### Installing
     1. Run npm instll 2d-gaming
-    2. ```Import { TwoDGaming } from '2d-gaming';``` Into your module
-    3. ```Import { GameAreaComponent, ObjectComponent } from '2d-gaming'``` into the file of your game.
+    2. Import { TwoDGaming } from '2d-gaming'; Into your module
+    3. Import { GameAreaComponent, ObjectComponent } from '2d-gaming' into the file of your game.
 
 
 ### Getting Started
