@@ -86,7 +86,6 @@ This is an Angular package fo developing 2d games in angular.
     }
   ```
 ### GameComponent
-####Functions
 |  Call      | Description         | Paramaters |
 | ----       |:-------------------:| ----------:|
 | .update()  | redraws the image   | groundObject barrier=true/false|
@@ -94,7 +93,7 @@ This is an Angular package fo developing 2d games in angular.
 | .hitGround() | Checks if the object is on the ground | areaObject ground object |
 | .crashWith() | checks if hits another object | otherObject |
 
-####Arributs
+
 | name      | Description       |
 | --------- | ----------------- |
 | width     | width of object   |
