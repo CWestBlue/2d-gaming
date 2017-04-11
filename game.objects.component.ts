@@ -35,10 +35,12 @@ export class ObjectComponent {
     src: boolean = true;
     score: number = 1;
     text: any;
+    maxWidth: any;
     constructor() {
-        this.create = function (width?: number, height?: number, color?: string, x?: number, y?: number, game?: GameAreaComponent, type?: string, controller?: any) {
+        this.create = function (width?: number, height?: number, color?: string, x?: number, y?: number, game?: GameAreaComponent, type?: string, controller?: any, maxWidth?: any) {
             this.color = color;
             this.game = game;
+            this.maxWidth = maxWidth;
             if (!this.type) {
                 this.type = type;
             }
@@ -69,7 +71,7 @@ export class ObjectComponent {
                             this.width, this.height); break;
                     case 'text': this.ctx.font = this.width + " " + this.height;
                         this.ctx.fillStyle = color;
-                        this.ctx.fillText(this.text, this.x, this.y); break;
+                        this.ctx.fillText(this.text, this.x, this.y, this.maxWidth); break;
                     default: this.ctx.fillStyle = color;
                         this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
                 }
@@ -173,6 +175,7 @@ export class ObjectComponent {
             this.y,
             this.width, this.height
         )
+        this.ctx.fillText
 
         // this._counter = setInterval(() => this.deformTerrain(this._startX += 20, this._startY, 40), 1000);
     }
