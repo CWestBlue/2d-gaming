@@ -7,7 +7,7 @@ This is an Angular package fo developing 2d games in angular.
 
 ### Installing
 1. Run npm instll 2d-gaming
-2. Import { TwoDGaming } from '2d-gaming'; Into your module
+2. Import { TwoDGamingModule } from '2d-gaming'; Into your module
 3. Import { GameAreaComponent, ObjectComponent } from '2d-gaming' into the file of your game.
 
 
