@@ -2,6 +2,7 @@
 
 ### Description
 This is an Angular package fo developing 2d games in angular.
+[Please Give Feedback Here](https://cwestblue.github.io/deployWeb/forms). Side note, this site I just started working on.
 
 
 ### Installing
