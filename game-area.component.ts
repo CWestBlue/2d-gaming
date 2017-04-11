@@ -26,7 +26,7 @@ export class GameAreaComponent implements OnInit {
 
     config(attributes: IGameArea) {
         this.canvas = document.createElement('canvas');
-        this.canvas.id = 'canvas';
+        this.canvas.id = attributes.name + 'Canvas';
         this.frame = 0;
         this.canvas.style.cursor = 'none';
         this.canvas.style.width = attributes.width;
