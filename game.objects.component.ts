@@ -45,10 +45,8 @@ export class ObjectComponent {
                 this.type = type;
             }
             if (this.type === "image") {
-                console.log("image")
                 this.image = new Image();
                 this.image.src = this.color;
-                console.log(color);
             }
             this.width = width;
             this.height = height;
@@ -99,7 +97,6 @@ export class ObjectComponent {
             this.falling = function (game, ground?) {
                 let falling = false;
                 if (!this.hitGround(game, ground)) {
-                    console.log('falling');
                     groundCount = 0;
                     falling = true
                 }
@@ -169,7 +166,6 @@ export class ObjectComponent {
     }
 
     imageReady(p: any) {
-        console.log('herer');
         this.ctx.drawImage(p,
             this.x,
             this.y,
