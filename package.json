@@ -11,6 +11,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/CWestBlue/2d-gaming"
+  },
   "private": false,
   "dependencies": {
     "@angular/common": "^4.0.0",
