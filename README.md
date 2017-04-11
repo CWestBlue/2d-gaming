@@ -91,7 +91,7 @@ This is an Angular package fo developing 2d games in angular.
       }
     }
   ```
-### GameComponent
+### ObjectComponent
 |  Call      | Description         | Paramaters |
 | ----       |:-------------------:| ----------:|
 | .update()  | redraws the image   | groundObject barrier=true/false|
@@ -110,6 +110,19 @@ This is an Angular package fo developing 2d games in angular.
 | speedY    | speed on the y axis |
 | gravitySpeed | the rate of failling speed increases |
 | text | text of object if it is of type text |
+
+### GameComponent
+| call      | Description         | Paramaters  |
+| --------  | ------------------- | ----------- |
+| .config() | configures and initalizes the game area | attribute object |
+| stop()    | stops the game | background object, player object, objects[]? ground object? |
+| .clear() | clears the game area | none |
+
+| name       | Description      |
+| ---------- | ---------------- |
+| frame      | the current frame your on |
+| area       | The element container of the game |
+| gravity    | the gravity of the game |
 
     
 
