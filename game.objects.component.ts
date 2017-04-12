@@ -75,7 +75,7 @@ export class ObjectComponent {
             }
 
             this.update = function (barrrier?, ground?) {
-                this.travel();
+                this.travelpath();
                 this.newPos(ground, barrrier);
                 this.ctx = game.context;
                 switch (this.type) {
