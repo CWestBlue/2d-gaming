@@ -38,6 +38,7 @@ export class ObjectComponent {
     path: IPath;
     text: any;
     maxWidth: any;
+    travelpath: any;
     constructor() {
         this.create = function (width?: number, height?: number, color?: string, x?: number, y?: number, game?: GameAreaComponent, type?: string, controller?: any, maxWidth?: any) {
             this.color = color;
