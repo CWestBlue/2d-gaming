@@ -63,8 +63,8 @@ export class ObjectComponent {
             this.ctx = game.context
             this.travelpath = function () {
                 if(this.path) {
-                let deltaX = this.path.ex - this.x;
-                let deltaY = this.path.ey - this.y;
+                let deltaX = this.path.x - this.x;
+                let deltaY = this.path.y - this.y;
                 let angle = Math.atan2(deltaY, deltaX);
                 this.speedX = 1 * Math.cos(angle);
                 this.speedY = 1 * Math.sin(angle);
