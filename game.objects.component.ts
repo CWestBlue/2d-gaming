@@ -67,8 +67,8 @@ export class ObjectComponent {
                 let deltaX = this.path.x - this.x;
                 let deltaY = this.path.y - this.y;
                 let angle = Math.atan2(deltaY, deltaX);
-                this.speedX = 1 * Math.cos(angle);
-                this.speedY = 1 * Math.sin(angle);
+                this.speedX = this.path.speed * Math.cos(angle);
+                this.speedY = this.path.speed * Math.sin(angle);
             } else {
                 console.log("Please configure the path for this object")
             }

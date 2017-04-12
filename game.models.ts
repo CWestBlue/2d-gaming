@@ -8,4 +8,5 @@ export interface IGameArea {
 export interface IPath {
     x: number,
     y: number
+    speed: number
 }

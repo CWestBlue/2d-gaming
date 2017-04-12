@@ -98,7 +98,8 @@ I just started working on my website.
     movingObject.create(20, 20, "red", 100, 100, this.gameArea, "color");
     movingObject.path = {
         x: 200,
-        y: 200
+        y: 200,
+        speed: 1
     }
     // Now inside the updateGameArea function
     updateGameArea() {
@@ -129,7 +130,7 @@ I just started working on my website.
 | speedY    | speed on the y axis |
 | gravitySpeed | the rate of failling speed increases |
 | text | text of object if it is of type text |
-| path | creates a path for the object to travel to. Object that has x and y properties|
+| path | creates a path for the object to travel to. Object that has x, y and speed properties|
 
 ### GameComponent
 | call      | Description         | Paramaters  |
