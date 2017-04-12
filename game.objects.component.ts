@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameAreaComponent } from './game-area.component';
+import { IPath } from "./index";
 
 
 @Component({
@@ -34,6 +35,7 @@ export class ObjectComponent {
     color: any;
     src: boolean = true;
     score: number = 1;
+    path: IPath;
     text: any;
     maxWidth: any;
     constructor() {
@@ -58,6 +60,17 @@ export class ObjectComponent {
             this.gravity = game.gravity;
             this.gravitySpeed = 0;
             this.ctx = game.context
+            this.travelpath = function () {
+                if(this.path) {
+                let deltaX = this.path.ex - this.x;
+                let deltaY = this.path.ey - this.y;
+                let angle = Math.atan2(deltaY, deltaX);
+                this.speedX = 1 * Math.cos(angle);
+                this.speedY = 1 * Math.sin(angle);
+            } else {
+                console.log("Please configure the path for this object")
+            }
+            }
 
             this.update = function () {
                 this.ctx = game.context;

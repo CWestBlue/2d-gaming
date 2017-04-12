@@ -4,3 +4,8 @@ export interface IGameArea {
     height?: string;
     gravity?: number;
 }
+
+export interface IPath {
+    x: number,
+    y: number
+}
