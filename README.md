@@ -2,8 +2,10 @@
 
 ### Description
 This is an Angular package fo developing 2d games in angular.
-[Please Give Feedback Here](https://cwestblue.github.io/deployWeb/forms). Side note, this site I just started working on.
+[Please Give Feedback Here](https://cwestblue.github.io/deployWeb/forms).
 
+######Side Note
+I just started working on my website.
 
 ### Installing
 1. Run npm instll 2d-gaming
@@ -51,9 +53,7 @@ This is an Angular package fo developing 2d games in angular.
     updateGameArea() {
         this.gaemArea.clear();
         this.gameArea.frame += 1;
-        this.player.newPos(false, true) 
-        // This is (customGroundObject, barrier arround the area) updates the players pos
-        this.player.update(); // reDraws the player
+        this.player.update(true); // reDraws the player. It can also take  a groundObject, and  true or false if you want barriers. 
     }
   ```
   4. Lets give our player movement. object.speedX & speedY move the object in that direction of y or x until set to 0.
@@ -92,11 +92,29 @@ This is an Angular package fo developing 2d games in angular.
       }
     }
   ```
+  5. Lets add an object that will move from one point to another. To do this we set object.path. The path object has a x and y value for the points you want your object to move to.
+  ```typescript
+    let movingObject = new ObjectComponent();
+    movingObject.create(20, 20, "red", 100, 100, this.gameArea, "color");
+    movingObject.path = {
+        x: 200,
+        y: 200
+    }
+    // Now inside the updateGameArea function
+    updateGameArea() {
+        this.gaemArea.clear();
+        this.gameArea.frame += 1;
+        this.movingObject.update(true); // Add this line to update the objects movement
+        this.player.update(true); // reDraws the player. It can also take  a true or false if you want barriers and a groundObject if you have one.
+
+
+    }
+
+  ```
 ### ObjectComponent
 |  Call      | Description         | Paramaters |
 | ----       |:-------------------:| ----------:|
-| .update()  | redraws the image   | groundObject barrier=true/false|
-| .newPos()  | updates the pos of the image | none |
+| .update()  | redraws the image   | barrier=true/false, groundObject|
 | .hitGround() | Checks if the object is on the ground | areaObject ground object |
 | .crashWith() | checks if hits another object | otherObject |
 
@@ -111,6 +129,7 @@ This is an Angular package fo developing 2d games in angular.
 | speedY    | speed on the y axis |
 | gravitySpeed | the rate of failling speed increases |
 | text | text of object if it is of type text |
+| path | creates a path for the object to travel to. Object that has x and y properties|
 
 ### GameComponent
 | call      | Description         | Paramaters  |

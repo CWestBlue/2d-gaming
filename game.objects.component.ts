@@ -16,7 +16,7 @@ export class ObjectComponent {
     update: any;
     speedX: number;
     speedY: number;
-    newPos: any;
+    private newPos: any;
     gravity: number;
     gravitySpeed = 0;
     ctx: CanvasRenderingContext2D;
@@ -33,12 +33,13 @@ export class ObjectComponent {
     create: any;
     start: any;
     color: any;
+    properties: any;
     src: boolean = true;
     score: number = 1;
     path: IPath;
     text: any;
     maxWidth: any;
-    travelpath: any;
+    private travelpath: any;
     constructor() {
         this.create = function (width?: number, height?: number, color?: string, x?: number, y?: number, game?: GameAreaComponent, type?: string, controller?: any, maxWidth?: any) {
             this.color = color;
@@ -73,7 +74,9 @@ export class ObjectComponent {
             }
             }
 
-            this.update = function () {
+            this.update = function (barrrier?, ground?) {
+                this.travel();
+                this.newPos(ground, barrrier);
                 this.ctx = game.context;
                 switch (this.type) {
                     case 'image': //this.image.onload = (() => this.imageReady(this.image))
