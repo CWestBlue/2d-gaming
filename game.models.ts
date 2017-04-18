@@ -29,18 +29,13 @@ export interface IGameObject {
     gravity: number;
     gravitySpeed: number;
     ctx: CanvasRenderingContext2D;
-    type: string;
+    type?: string;
     image: any;
-    middle: boolean;
     color: any;
-    src: boolean;
     score: number;
     path: IPath;
     text: any;
-    maxWidth: any;
-    newPos: (barrier, ground) => void;
     update: (barrier, ground) => void;
     hitGround: (game, ground?) => boolean;
     crashWith: (object) => boolean;
-    travelpath: () => void;
 }

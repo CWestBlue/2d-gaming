@@ -1,209 +1,148 @@
 import { Component, OnInit } from '@angular/core';
-import { GameAreaComponent } from './game-area.component';
-import { IPath } from "./index";
-
-
-@Component({
-    selector: 'app-game-object',
-    templateUrl: './game.component.html',
-    styleUrls: ['./game.component.css']
-})
-export class ObjectComponent {
+import { GameAreaObject } from './game-area.object';
+import { IPath, IGameObject } from "./index";
+export class ObjectComponent implements IGameObject {
     width: number;
     height: number;
     x: number;
     y: number;
-    update: any;
+    // update: any;
     speedX: number;
     speedY: number;
-    private newPos: any;
+    // private newPos: any;
     gravity: number;
     gravitySpeed = 0;
     ctx: CanvasRenderingContext2D;
-    falling: any;
-    hitGround: any;
-    type: any;
+    // falling: any;
+    // hitGround: any;
+    // type: any;
     image: any;
-    crashWith: any;
-    private _timer;	// a simple timer
-    middle: boolean;
-    private _startX = 0;
-    private _startY = 0;
-    private _counter;
-    create: any;
-    start: any;
+    // crashWith: any;
+    // private _timer;	// a simple timer
+    // private _startX = 0;
+    // private _startY = 0;
+    // private _counter;
+    // create: any;
+    // start: any;
+    type: string;
     color: any;
-    properties: any;
-    src: boolean = true;
+    // properties: any;
     score: number = 1;
     path: IPath;
     text: any;
-    maxWidth: any;
-    private travelpath: any;
-    constructor() {
-        this.create = function (width?: number, height?: number, color?: string, x?: number, y?: number, game?: GameAreaComponent, type?: string, controller?: any, maxWidth?: any) {
-            this.color = color;
-            this.game = game;
-            this.maxWidth = maxWidth;
-            if (!this.type) {
-                this.type = type;
+    game: GameAreaObject;
+    constructor(
+        game: GameAreaObject, width: any,
+        height: any, look: string, xPos: number,
+        yPos: number, type: string
+    ) {
+        this.game = game;
+        this.width = width;
+        this.height = height,
+            this.color = look;
+        this.x = xPos;
+        this.y = yPos;
+        this.type = type;
+        this.create(type);
+    }
+    hitGround = function (game, ground?): boolean {
+        let top = game.canvas.height;
+        let bottom = game.canvas.height - this.height;
+        let hit = false
+
+        if (ground) {
+            bottom = game.canvas.height - ground.height - this.height;
+        }
+        if (this.y > bottom) {
+            this.y = bottom;
+            this.groundCount = 1;
+            hit = true;
+
+            return true
+        } else if (this.y < 0) {
+            this.y = 2;
+            return false;
+        }
+        else {
+            return false;
+        }
+
+    }
+   private newPos = function (ground?, barrrier?) {
+        this.x += this.speedX;
+        if (!barrrier) {
+            this.y += this.speedY = this.gravitySpeed;
+            this.gravitySpeed += this.gravity;
+        } else {
+            if (this.hitGround(this.game, ground)) {
+                this.speedY = 0;
+                this.gravitySpeed = 0;
             }
-            if (this.type === "image") {
-                this.image = new Image();
-                this.image.src = this.color;
+            if (!(this.hitGround(this.game, ground))) {
+                this.y += this.speedY + this.gravitySpeed;
+                this.gravitySpeed += this.gravity;
             }
-            this.width = width;
-            this.height = height;
-            this.x = x;
-            this.y = y;
-            let groundCount = 0;
-            this.speedX = 0;
-            this.speedY = 0;
-            this.gravity = game.gravity;
-            this.gravitySpeed = 0;
-            this.ctx = game.context
-            this.travelpath = function () {
-                if(this.path) {
-                let deltaX = this.path.x - this.x;
-                let deltaY = this.path.y - this.y;
-                let angle = Math.atan2(deltaY, deltaX);
-                this.speedX = this.path.speed * Math.cos(angle);
-                this.speedY = this.path.speed * Math.sin(angle);
-            } else {
-                return;
-            }
-            }
-
-            this.update = function (barrrier?, ground?) {
-                this.travelpath();
-                this.newPos(ground, barrrier);
-                this.ctx = game.context;
-                switch (this.type) {
-                    case 'image': //this.image.onload = (() => this.imageReady(this.image))
-                        this.ctx.drawImage(this.image,
-                            this.x,
-                            this.y,
-                            this.width, this.height); break;
-                    case 'text': this.ctx.font = this.width + " " + this.height;
-                        this.ctx.fillStyle = color;
-                        this.ctx.fillText(this.text, this.x, this.y, this.maxWidth); break;
-                    default: this.ctx.fillStyle = color;
-                        this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
-                }
-
-            }
-            this.newPos = function (ground?, barrrier?) {
-                this.x += this.speedX;
-                if (!barrrier) {
-                    this.y += this.speedY = this.gravitySpeed;
-                    this.gravitySpeed += this.gravity;
-                } else {
-                    if (this.hitGround(game, ground)) {
-                        this.speedY = 0;
-                        this.gravitySpeed = 0;
-                    }
-                    if (!(this.hitGround(game, ground))) {
-                        this.y += this.speedY + this.gravitySpeed;
-                        this.gravitySpeed += this.gravity;
-                    }
-                }
+        }
 
 
-            }
-
-            this.falling = function (game, ground?) {
-                let falling = false;
-                if (!this.hitGround(game, ground)) {
-                    groundCount = 0;
-                    falling = true
-                }
-                return falling;
-            }
-
-            this.hitGround = function (game, ground?): boolean {
-                let top = game.canvas.height;
-                let bottom = game.canvas.height - this.height;
-                let hit = false
-
-                if (ground) {
-                    bottom = game.canvas.height - ground.height - this.height;
-                    //     if (this.y > bottom ) {
-                    //         this.y = bottom;
-                    //     hit = true;
-                    //     groundCount = 1;
-                    //     return true
-                    //  } 
-                    //  else {
-                    //     return false
-                    // }
-
-                    // } else {
-                }
-                if (this.y > bottom) {
-                    this.y = bottom;
-                    groundCount = 1;
-                    hit = true;
-
-                    return true
-                } else if (this.y < 0) {
-                    this.y = 2;
-                    return false;
-                }
-                //     else if ( this.y < top) {
-                //     this.y = top;
-                //     return true;
-                // }
-                else {
-                    return false;
-                }
-
-            }
-
-
-            this.crashWith = function (otherobj): boolean {
-                let myleft = this.x;
-                let myright = this.x + (this.width);
-                let mytop = this.y;
-                let mybottom = this.y + (this.height);
-                let otherleft = otherobj.x;
-                let otherright = otherobj.x + (otherobj.width);
-                let othertop = otherobj.y;
-                let otherbottom = otherobj.y + (otherobj.height);
-                if ((mybottom < othertop) ||
-                    (mytop > otherbottom) ||
-                    (myright < otherleft) ||
-                    (myleft > otherright)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
+    }
+   private travelpath() {
+        if (this.path) {
+            let deltaX = this.path.x - this.x;
+            let deltaY = this.path.y - this.y;
+            let angle = Math.atan2(deltaY, deltaX);
+            this.speedX = this.path.speed * Math.cos(angle);
+            this.speedY = this.path.speed * Math.sin(angle);
+        } else {
+            return;
         }
     }
+    update(barrrier?, ground?) {
+        this.travelpath();
+        this.newPos(ground, barrrier);
+        this.ctx = this.game.context;
+        switch (this.type) {
+            case 'image': //this.image.onload = (() => this.imageReady(this.image))
+                this.ctx.drawImage(this.image,
+                    this.x,
+                    this.y,
+                    this.width, this.height); break;
+            case 'text': this.ctx.font = this.width + " " + this.height;
+                this.ctx.fillStyle = this.color;
+                this.ctx.fillText(this.text, this.x, this.y); break;
+            default: this.ctx.fillStyle = this.color;
+                this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
+        }
 
-    imageReady(p: any) {
-        this.ctx.drawImage(p,
-            this.x,
-            this.y,
-            this.width, this.height
-        )
-        this.ctx.fillText
-
-        // this._counter = setInterval(() => this.deformTerrain(this._startX += 20, this._startY, 40), 1000);
     }
-
-    //       deformTerrain(size:number, posX:number, posY:number) {
-    //    		var g = this.ctx.createRadialGradient(posX + (size / 2), posY + (size / 2), 0, posX + (size / 2), posY + (size / 2), size);
-
-    // 		g.addColorStop(1, 'rgba(0,0,255,0)');
-    // 		g.addColorStop(0.99, 'rgba(0,0,255,1)');
-    // 		g.addColorStop(0, 'rgba(0,0,255,1)');
-
-    // 		this.ctx.fillStyle = g;
-    // 		this.ctx.globalCompositeOperation = 'xor';
-    // 		this.ctx.fillRect(posX - (size / 2), posY - (size / 2), size * 2, size * 2);
-    //    }
-
-
+    private create(type) {
+        if (type === "image") {
+            this.image = new Image();
+            this.image.src = this.color;
+        }
+        let groundCount = 0;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.gravity = this.game.gravity;
+        this.gravitySpeed = 0;
+        this.ctx = this.game.context
+    }
+    crashWith = function (otherobj): boolean {
+        let myleft = this.x;
+        let myright = this.x + (this.width);
+        let mytop = this.y;
+        let mybottom = this.y + (this.height);
+        let otherleft = otherobj.x;
+        let otherright = otherobj.x + (otherobj.width);
+        let othertop = otherobj.y;
+        let otherbottom = otherobj.y + (otherobj.height);
+        if ((mybottom < othertop) ||
+            (mytop > otherbottom) ||
+            (myright < otherleft) ||
+            (myleft > otherright)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
