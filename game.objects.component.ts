@@ -70,7 +70,7 @@ export class ObjectComponent {
                 this.speedX = this.path.speed * Math.cos(angle);
                 this.speedY = this.path.speed * Math.sin(angle);
             } else {
-                console.log("Please configure the path for this object")
+                return;
             }
             }
 
