@@ -6,8 +6,8 @@ import { GameAreaObject } from './game-area.object';
 @NgModule({
     id: module.id,
     imports: [ ],
-    exports: [ GameAreaCom, ObjectComponent],
-    declarations: [GameAreaCom, ObjectComponent],
+    exports: [ GameAreaCom],
+    declarations: [GameAreaCom],
     providers: [],
 })
 export class TwoDGamingModule { 

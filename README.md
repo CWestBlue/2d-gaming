@@ -24,7 +24,7 @@ I just started working on my website.
     templateUrl: './space.component.html'
     })
     export class GameComponent {
-    gameArea = new GameAreaComponent(); // Your game plane
+    gameArea = new GameAreaComponent('angryBook', '300px', '300px'); // Your game plane
     attributes = {
     name: 'angryBook';
     width: '300px';
