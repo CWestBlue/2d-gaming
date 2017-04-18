@@ -23,15 +23,9 @@ I just started working on my website.
     selector: 'app-game',
     templateUrl: './space.component.html'
     })
-    export class GameComponent {
-    gameArea = new GameAreaComponent('angryBook', '300px', '300px'); // Your game plane
-    attributes = {
-    name: 'angryBook';
-    width: '300px';
-    height: '300px';
-    gravity: 0;
-    } // the attributes each plane will have
-    this.gameArea.congfig(attributes) // initializes the plane
+    export class GameComponent {        //name      width   height
+    gameArea = new GameAreaObject('angryBook', '300px', '300px'); // Your game plane
+    gameArea.gravity = 0;
     };
   ```
   ```html
@@ -40,15 +34,16 @@ I just started working on my website.
   ```
   2. Now you can add a player. The ObjectComponent.create() takes in a width, height, color or image url, x position, y position, a gameAreaObject, what type it is color or image.
   ```typescript
-    this.player = new ObjectComponent(); // a player created out of object
-    this.player.create(20, 20, 'green', 150, 150, this.gameArea, 'color');
-    // This is (width, height, color or image url, x pos, y pos, gameAreaObject/areaName, ofType color or image)
+    this.player = 
+    new ObjectComponent(this.gameArea, 20, 20, 'green', 150, 150, this.gameArea, 'color');
+     // Create a play with ObjectComponent
+    // This is (gameAreaObject/areaName, width, height, color or image url, x      pos, y pos, ofType color or image)
 
   ```
 
   3.  We need to create an update game function that will run ever frame rate. The reason we do this is an object add to the game plane will not be updated for example the previous spot. It would just add a second one.
   ```typescript
-    setInterval(() => this.updateGameArea(), 20)
+    this.gameArea.doEveryFrame = (() => this.updateGameArea)
 
     updateGameArea() {
         this.gaemArea.clear();
@@ -94,8 +89,7 @@ I just started working on my website.
   ```
   5. Lets add an object that will move from one point to another. To do this we set object.path. The path object has a x and y value for the points you want your object to move to.
   ```typescript
-    let movingObject = new ObjectComponent();
-    movingObject.create(20, 20, "red", 100, 100, this.gameArea, "color");
+    let movingObject = new ObjectComponent(this.gameArea, 20, 20, "red", 100, 100, 'color' );
     movingObject.path = {
         x: 200,
         y: 200,
@@ -135,6 +129,7 @@ I just started working on my website.
 ### GameComponent
 | call      | Description         | Paramaters  |
 | --------  | ------------------- | ----------- |
+| .start()  | starts the game     |             |
 | .config() | configures and initalizes the game area | attribute object |
 | stop()    | stops the game | background object, player object, objects[]? ground object? |
 | .clear() | clears the game area | none |
