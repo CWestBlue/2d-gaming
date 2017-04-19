@@ -110,8 +110,10 @@ I just started working on my website.
 |  Call      | Description         | Paramaters |
 | ----       |:-------------------:| ----------:|
 | .update()  | redraws the image   | barrier=true/false, groundObject|
-| .hitGround() | Checks if the object is on the ground | areaObject ground object |
+| .add()     | adds a barrier to the object |   objectComponent |
+| .hitBarrier() | Checks if the object hit a barrier | none |
 | .crashWith() | checks if hits another object | otherObject |
+| .shoot()     | shoots an object | objectComponent |
 
 
 | name      | Description       |

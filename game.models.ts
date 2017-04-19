@@ -36,6 +36,6 @@ export interface IGameObject {
     path: IPath;
     text: any;
     update: (barrier, ground) => void;
-    hitGround: (game, ground?) => boolean;
     crashWith: (object) => boolean;
+    shoot: (x, y, speed, object) => void;
 }

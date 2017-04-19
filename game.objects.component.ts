@@ -6,27 +6,17 @@ export class ObjectComponent implements IGameObject {
     height: number;
     x: number;
     y: number;
-    // update: any;
     speedX: number;
     speedY: number;
-    // private newPos: any;
+    private barriers: ObjectComponent[] = [];
     gravity: number;
+    private objects: ObjectComponent[] = [];
     gravitySpeed = 0;
     ctx: CanvasRenderingContext2D;
-    // falling: any;
-    // hitGround: any;
-    // type: any;
+    private isShoot: boolean;
     image: any;
-    // crashWith: any;
-    // private _timer;	// a simple timer
-    // private _startX = 0;
-    // private _startY = 0;
-    // private _counter;
-    // create: any;
-    // start: any;
     type: string;
     color: any;
-    // properties: any;
     score: number = 1;
     path: IPath;
     text: any;
@@ -45,61 +35,91 @@ export class ObjectComponent implements IGameObject {
         this.type = type;
         this.create(type);
     }
-    hitGround = function (game, ground?): boolean {
-        let top = game.canvas.height;
-        let bottom = game.canvas.height - this.height;
-        let hit = false
-
-        if (ground) {
-            bottom = game.canvas.height - ground.height - this.height;
-        }
-        if (this.y > bottom) {
-            this.y = bottom;
-            this.groundCount = 1;
-            hit = true;
-
-            return true
-        } else if (this.y < 0) {
-            this.y = 2;
-            return false;
-        }
-        else {
-            return false;
-        }
-
-    }
-   private newPos = function (ground?, barrrier?) {
+    private newPos(barrier?) {
         this.x += this.speedX;
-        if (!barrrier) {
-            this.y += this.speedY = this.gravitySpeed;
-            this.gravitySpeed += this.gravity;
-        } else {
-            if (this.hitGround(this.game, ground)) {
-                this.speedY = 0;
+        this.y += this.speedY = this.gravitySpeed;
+        this.gravitySpeed += this.gravity;
+        if (barrier) {
+            if (this.hitBarrier()) {
                 this.gravitySpeed = 0;
-            }
-            if (!(this.hitGround(this.game, ground))) {
-                this.y += this.speedY + this.gravitySpeed;
-                this.gravitySpeed += this.gravity;
-            }
+                this.speedY = 0;
+                this.gravity = 0;
+            } 
         }
-
-
     }
-   private travelpath() {
+    add(barrier: ObjectComponent) {
+        this.barriers.push(barrier)
+    }
+    private hitBarrier() {
+        let right = this.game.canvas.width;
+        let bottom = this.game.canvas.height
+        if (this.leavesWith()) {
+            return true;
+        }
+        if(this.barriers.length > 0) {
+            this.barriers.forEach(obj => {
+                if (this.crashWith(obj)) {
+                    this.y = obj.y - this.height;
+                    return true;
+                }
+            })
+        }
+        return false;
+    }
+    
+    // hitGround(ground?): boolean {
+    //     let top = 0;
+    //     let bottom = this.game.canvas.height;
+    //     if (ground) {
+    //         bottom = this.game.canvas.height - ground.height - this.height;
+    //     }
+    //     if (this.y > bottom) {
+    //         this.y = bottom;
+    //         return true
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
+    private travelpath() {
         if (this.path) {
             let deltaX = this.path.x - this.x;
             let deltaY = this.path.y - this.y;
             let angle = Math.atan2(deltaY, deltaX);
             this.speedX = this.path.speed * Math.cos(angle);
-            this.speedY = this.path.speed * Math.sin(angle);
+            this.gravitySpeed = this.path.speed * Math.sin(angle);
+            if (this.isShoot) {
+                this.path.x += deltaX;
+                this.path.y += deltaY;
+            }
         } else {
             return;
         }
     }
-    update(barrrier?, ground?) {
+    shoot(x, y, speed, object: ObjectComponent) {
+        console.log('shoot')
+        let arrow = new ObjectComponent(this.game, object.width, object.height, object.color, this.x, this.y, object.type);
+        arrow.isShoot = true;
+        arrow.path = {
+            x: x,
+            y: y,
+            speed: speed
+        }
+        this.objects.push(arrow);
+    }
+    update(barrier?, ground?) {
+        if (this.barriers.length > 0) {
+            this.barriers.forEach(res => {
+                res.update(false)
+            })
+        }
+        if (this.objects.length > 0) {
+            this.objects.forEach(res => {
+                res.update(false);
+            })
+        }
         this.travelpath();
-        this.newPos(ground, barrrier);
+        this.newPos(barrier);
         this.ctx = this.game.context;
         switch (this.type) {
             case 'image': //this.image.onload = (() => this.imageReady(this.image))
@@ -127,7 +147,7 @@ export class ObjectComponent implements IGameObject {
         this.gravitySpeed = 0;
         this.ctx = this.game.context
     }
-    crashWith = function (otherobj): boolean {
+    crashWith(otherobj): boolean {
         let myleft = this.x;
         let myright = this.x + (this.width);
         let mytop = this.y;
@@ -140,6 +160,24 @@ export class ObjectComponent implements IGameObject {
             (mytop > otherbottom) ||
             (myright < otherleft) ||
             (myleft > otherright)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    leavesWith(): boolean {
+        let myleft = this.x;
+        let myright = this.x + (this.width);
+        let mytop = this.y;
+        let mybottom = this.y + (this.height);
+        let otherleft = 0;
+        let otherright = this.game.canvas.width
+        let othertop = 0;
+        let otherbottom = this.game.canvas.height;
+        if ((mytop > othertop) ||
+            (mybottom < otherbottom) ||
+            (myleft > otherleft) ||
+            (myright < otherright)) {
             return false;
         } else {
             return true;
