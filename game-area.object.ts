@@ -40,4 +40,11 @@ export class GameAreaObject implements IGameArea{
             player.update();
 
     }
+    everyinterval(frames: number) {
+        if ((this.frame / frames) % 1 === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

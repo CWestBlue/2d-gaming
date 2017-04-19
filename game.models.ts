@@ -12,6 +12,7 @@ export interface IGameArea {
     doEveryFrame: () => void;
     stop: (sky, player, objects?, ground?) => void;
     clear: () => void;
+    everyinterval(frames: number);
 }
 export interface IPath {
     x: number,

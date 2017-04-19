@@ -41,10 +41,14 @@ export class ObjectComponent implements IGameObject {
         this.gravitySpeed += this.gravity;
         if (barrier) {
             if (this.hitBarrier()) {
-                this.gravitySpeed = 0;
-                this.speedY = 0;
-                this.gravity = 0;
-            } 
+                if (!(this.leavesWith() === 'bottom')) {
+                    return;
+                } else {
+                    this.gravitySpeed = 0;
+                    this.speedY = 0;
+                    this.gravity = 0;
+                }
+            }
         }
     }
     add(barrier: ObjectComponent) {
@@ -53,10 +57,19 @@ export class ObjectComponent implements IGameObject {
     private hitBarrier() {
         let right = this.game.canvas.width;
         let bottom = this.game.canvas.height
+        console.log(this.leavesWith());
         if (this.leavesWith()) {
+            switch (this.leavesWith()) {
+                case 'right': this.x = this.game.canvas.width - this.width; this.speedX = 0 ; break;
+                case 'left': this.x = 0 ; break;
+                case 'bottom': this.y = this.game.canvas.height - this.height; this.gravitySpeed = 0;
+                    this.speedY = 0;
+                    this.gravity = 0; break;
+                case 'top': this.y = 0; break;
+            }
             return true;
         }
-        if(this.barriers.length > 0) {
+        if (this.barriers.length > 0) {
             this.barriers.forEach(obj => {
                 if (this.crashWith(obj)) {
                     this.y = obj.y - this.height;
@@ -66,21 +79,6 @@ export class ObjectComponent implements IGameObject {
         }
         return false;
     }
-    
-    // hitGround(ground?): boolean {
-    //     let top = 0;
-    //     let bottom = this.game.canvas.height;
-    //     if (ground) {
-    //         bottom = this.game.canvas.height - ground.height - this.height;
-    //     }
-    //     if (this.y > bottom) {
-    //         this.y = bottom;
-    //         return true
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
     private travelpath() {
         if (this.path) {
             let deltaX = this.path.x - this.x;
@@ -165,7 +163,7 @@ export class ObjectComponent implements IGameObject {
             return true;
         }
     }
-    leavesWith(): boolean {
+    leavesWith(): any {
         let myleft = this.x;
         let myright = this.x + (this.width);
         let mytop = this.y;
@@ -174,13 +172,24 @@ export class ObjectComponent implements IGameObject {
         let otherright = this.game.canvas.width
         let othertop = 0;
         let otherbottom = this.game.canvas.height;
-        if ((mytop > othertop) ||
-            (mybottom < otherbottom) ||
-            (myleft > otherleft) ||
-            (myright < otherright)) {
-            return false;
+        if ((mytop < othertop) ||
+            (mybottom > otherbottom) ||
+            (myleft < otherleft) ||
+            (myright > otherright)) {
+             if (mytop < othertop) {
+                return 'top';
+            }
+            if (mybottom > otherbottom) {
+                return 'bottom';
+            }
+            if (myleft < otherleft) {
+                return 'left';
+            }
+            if (myright > otherright) {
+                return 'right';
+            }
         } else {
-            return true;
+           return;
         }
     }
 }
