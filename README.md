@@ -57,32 +57,27 @@ I just started working on my website.
 
     onKeyup(e: KeyboardEvent) {
         const code = e.keyCode;
-        switch (code) {
-          case 37: this.player.speedX = 0; break;
-          case 39: this.player.speedX = 0; break;
-          case 38: this.player.speedY = 0; break;
-          case 40: this.player.speedY = 0; break;
-        }
+        player.speedX = 0;
     }
 
     @HostListener('document:keydown', ['$event'])
 
     onkeydown(e: KeyboardEvent) {
         const code = e.keyCode;
-        // Right Arrow
-      if (code === 39) {
+        // D Key
+      if (code === 68) {
           this.player.speedX = 1.5; // move right
       }
-      // Left Arrow
-      if (code === 37) {
+      // A Key
+      if (code === 65) {
           this.player.speedX = -1.5; //move left
       }
-      // Up Arrow
-      if (code === 38) {
+      // W Key
+      if (code === 87) {
           this.player.speedY = -1.5; // move up
       }
-      // Down Arrow
-      if (code === 40) {
+      // S Key
+      if (code === 83) {
           this.player.speedY = 1.5; // move down
       }
     }
@@ -100,7 +95,7 @@ I just started working on my website.
         this.gaemArea.clear();
         this.gameArea.frame += 1;
         this.movingObject.update(true); // Add this line to update the objects movement
-        this.player.update(true); // reDraws the player. It can also take  a true or false if you want barriers and a groundObject if you have one.
+        this.player.update(true); // reDraws the player. It can also take  a true or false if you want barriers.
 
 
     }
@@ -114,6 +109,7 @@ I just started working on my website.
 | .hitBarrier() | Checks if the object hit a barrier | none |
 | .crashWith() | checks if hits another object | otherObject |
 | .shoot()     | shoots an object | objectComponent |
+| .jump() | Object will jump if gravity | speed: number |
 
 
 | name      | Description       |
@@ -136,6 +132,7 @@ I just started working on my website.
 | stop()    | stops the game | background object, player object, objects[]? ground object? |
 | .clear() | clears the game area | none |
 | .doEveryFrame() | runs every frame | function |
+| .everyinterval() | returns true or false. Do somthing every interval | number for when you want the interval to be set at |
 
 | name       | Description      |
 | ---------- | ---------------- |
