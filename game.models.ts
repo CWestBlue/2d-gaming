@@ -39,4 +39,5 @@ export interface IGameObject {
     update: (barrier, ground) => void;
     crashWith: (object) => boolean;
     shoot: (x, y, speed, object) => void;
+    jump: (speed: number) => void;
 }

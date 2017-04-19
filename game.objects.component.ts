@@ -45,8 +45,6 @@ export class ObjectComponent implements IGameObject {
                     return;
                 } else {
                     this.gravitySpeed = 0;
-                    this.speedY = 0;
-                    this.gravity = 0;
                 }
             }
         }
@@ -57,14 +55,14 @@ export class ObjectComponent implements IGameObject {
     private hitBarrier() {
         let right = this.game.canvas.width;
         let bottom = this.game.canvas.height
-        console.log(this.leavesWith());
         if (this.leavesWith()) {
             switch (this.leavesWith()) {
                 case 'right': this.x = this.game.canvas.width - this.width; this.speedX = 0 ; break;
                 case 'left': this.x = 0 ; break;
                 case 'bottom': this.y = this.game.canvas.height - this.height; this.gravitySpeed = 0;
                     this.speedY = 0;
-                    this.gravity = 0; break;
+                    // this.gravity = 0;
+                     break;
                 case 'top': this.y = 0; break;
             }
             return true;
@@ -93,6 +91,12 @@ export class ObjectComponent implements IGameObject {
         } else {
             return;
         }
+    }
+    jump(n) {
+        console.log('madeit');
+        const originalSpeed = this.gravitySpeed;
+        this.gravitySpeed = -n;
+        // setTimeout(() => { this.gravitySpeed = originalSpeed; }, 40);
     }
     shoot(x, y, speed, object: ObjectComponent) {
         console.log('shoot')
