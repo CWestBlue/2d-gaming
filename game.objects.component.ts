@@ -10,7 +10,7 @@ export class ObjectComponent implements IGameObject {
     speedY: number;
     private barriers: ObjectComponent[] = [];
     gravity: number;
-    private objects: ObjectComponent[] = [];
+    bullets: ObjectComponent[] = [];
     gravitySpeed = 0;
     ctx: CanvasRenderingContext2D;
     private isShoot: boolean;
@@ -105,7 +105,7 @@ export class ObjectComponent implements IGameObject {
             y: y,
             speed: speed
         }
-        this.objects.push(arrow);
+        this.bullets.push(arrow);
     }
     update(barrier?, ground?) {
         if (this.barriers.length > 0) {
@@ -113,8 +113,8 @@ export class ObjectComponent implements IGameObject {
                 res.update(false)
             })
         }
-        if (this.objects.length > 0) {
-            this.objects.forEach(res => {
+        if (this.bullets.length > 0) {
+            this.bullets.forEach(res => {
                 res.update(false);
             })
         }
