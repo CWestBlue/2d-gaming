@@ -15,7 +15,7 @@ I just started working on my website.
 
 ### Getting Started
 ##### Setup your game
-1. Configure your game area by using .config. Each area object will have a name, width, height and gravity.
+1. Setup your game area. Each area object will have a name, width, height and gravity.
 ```typescript
     import { GameAreaComponent, ObjectComponent } from '2d-gaming';
 
@@ -32,7 +32,7 @@ I just started working on my website.
   <!--- In html place this tag -->
   <app-game-area></app-game-area>
   ```
-  2. Now you can add a player. The ObjectComponent.create() takes in a width, height, color or image url, x position, y position, a gameAreaObject, what type it is color or image.
+  2. Now you can add a player. The ObjectComponent takes in a gameAreaObject, wdith, height, color or image url, x position, y position, a type (color/image/text).
   ```typescript
     this.player = 
     new ObjectComponent(this.gameArea, 20, 20, 'green', 150, 150, this.gameArea, 'color');
@@ -133,6 +133,7 @@ I just started working on my website.
 | .config() | configures and initalizes the game area | attribute object |
 | stop()    | stops the game | background object, player object, objects[]? ground object? |
 | .clear() | clears the game area | none |
+| .doEveryFrame() | runs every frame | function |
 
 | name       | Description      |
 | ---------- | ---------------- |
