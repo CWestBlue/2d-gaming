@@ -1,6 +1,6 @@
 {
   "name": "2d-gaming",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "license": "MIT",
   "module": "game.model.ts",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/CWestBlue/2d-gaming"
   },
   "private": false,
-    "keywords": [
+  "keywords": [
     "2d",
     "HTML",
     "canvas",
