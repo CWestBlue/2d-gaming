@@ -127,8 +127,8 @@ I just started working on my website.
 ### GameComponent
 | call      | Description         | Paramaters  |
 | --------  | ------------------- | ----------- |
-| .start()  | starts the game     |             |
-| stop()    | stops the game | background object, player object, objects[]? ground object? |
+| .start()  | starts the game     |      none       |
+| stop()    | stops the game |  none |
 | .clear() | clears the game area | none |
 | .doEveryFrame() | runs every frame | function |
 | .everyinterval() | returns true or false. Do somthing every interval | number for when you want the interval to be set at |

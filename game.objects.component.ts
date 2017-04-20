@@ -34,6 +34,7 @@ export class ObjectComponent implements IGameObject {
         this.y = yPos;
         this.type = type;
         this.create(type);
+        this.game.gameObjects.push(this)
     }
     private newPos(barrier?) {
         this.x += this.speedX;

@@ -8,8 +8,6 @@ import { GameAreaObject } from './game-area.object';
     imports: [ ],
     exports: [ GameAreaCom],
     declarations: [GameAreaCom],
-    providers: [],
+    providers: []
 })
-export class TwoDGamingModule { 
-
-}
+export class TwoDGamingModule { }

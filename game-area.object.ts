@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewContainerRef, Inject } from '@angular/core';
 import { IGameArea } from "./game.models";
+import { ObjectComponent } from './game.objects.component';
+import * as _ from 'lodash';
 
-export class GameAreaObject implements IGameArea{
+export class GameAreaObject implements IGameArea {
     doEveryFrame: () => void;
     gravity = 0;
     canvas = document.createElement('canvas')
-    context = (<CanvasRenderingContext2D> this.canvas.getContext('2d'));
+    context = (<CanvasRenderingContext2D>this.canvas.getContext('2d'));
     frame = 0;
     interval: any;
+    gameObjects: ObjectComponent[] = [];
     area = document.getElementById('area');
     constructor(public name: string, public width: string, public height: string) {
         this.height = height;
@@ -21,24 +24,28 @@ export class GameAreaObject implements IGameArea{
     }
 
     start() {
-        if(this.doEveryFrame) {
+        if (this.doEveryFrame) {
             this.interval = setInterval(() => { this.doEveryFrame(); }, 20);
         }
     }
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
-    stop(sky, player, objects?, ground?) {
+    stop() {
         clearInterval(this.interval);
-        if (objects) {
-            objects.forEach(object => { this.context.clearRect(object.x, object.y, object.width, object.height)})
-        }
-            sky.update();
-            if (ground) {
-            ground.update();
-        }
-            player.update();
-
+        this.gameObjects.forEach(res => {
+            if (res.bullets) {
+                res.bullets.forEach(bull => {
+                    this.context.clearRect(bull.x, bull.y, bull.width, bull.height)
+                    let index = _.findIndex(this.gameObjects, (o) => { return o === bull });
+                    this.gameObjects.splice(index, 1);
+                })
+                res.bullets = [];
+            }
+            this.context.clearRect(res.x, res.y, res.width, res.height)
+            res.update();
+        })
+        this.frame = 0;
     }
     everyinterval(frames: number) {
         if ((this.frame / frames) % 1 === 0) {
