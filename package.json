@@ -16,6 +16,18 @@
     "url": "https://github.com/CWestBlue/2d-gaming"
   },
   "private": false,
+    "keywords": [
+    "2d",
+    "HTML",
+    "canvas",
+    "game",
+    "angular2",
+    "angular",
+    "angualr4",
+    "physics",
+    "tweens",
+    "typescript"
+  ],
   "dependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
