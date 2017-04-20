@@ -26,7 +26,11 @@
     "angualr4",
     "physics",
     "tweens",
-    "typescript"
+    "typescript",
+    "gaming",
+    "create",
+    "make",
+    "draw"
   ],
   "dependencies": {
     "@angular/common": "^4.0.0",

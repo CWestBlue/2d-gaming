@@ -128,7 +128,6 @@ I just started working on my website.
 | call      | Description         | Paramaters  |
 | --------  | ------------------- | ----------- |
 | .start()  | starts the game     |             |
-| .config() | configures and initalizes the game area | attribute object |
 | stop()    | stops the game | background object, player object, objects[]? ground object? |
 | .clear() | clears the game area | none |
 | .doEveryFrame() | runs every frame | function |
