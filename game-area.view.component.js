@@ -17,8 +17,7 @@ var GameAreaCom = (function () {
 GameAreaCom = __decorate([
     Component({
         selector: 'app-game-area',
-        template: "<div id=\"area\"></div>",
-        styleUrls: ['./game.component.css']
+        template: "<div id=\"area\"></div>"
     }),
     __metadata("design:paramtypes", [])
 ], GameAreaCom);
