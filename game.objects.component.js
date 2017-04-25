@@ -12,8 +12,7 @@ var ObjectComponent = (function () {
         this.type = type;
         this.create(type);
         this.game.gameObjects.push(this);
-        // this.origin.x = xPos;
-        // this.origin.y = yPos;
+        this.typeOf();
     }
     ObjectComponent.prototype.newPos = function (barrier) {
         this.x += this.speedX;
@@ -29,6 +28,23 @@ var ObjectComponent = (function () {
                 }
             }
         }
+    };
+    ObjectComponent.prototype.typeOf = function () {
+        switch (this.type) {
+            case 'image':
+                this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+                break;
+            case 'text':
+                this.ctx.font = this.width + " " + this.height;
+                this.ctx.fillStyle = this.color;
+                this.ctx.fillText(this.text, this.x, this.y);
+                break;
+            default:
+                this.ctx.fillStyle = this.color;
+                this.ctx.fillRect(this.x, this.y, this.width, this.height);
+                break;
+        }
+        ;
     };
     ObjectComponent.prototype.add = function (barrier) {
         this.barriers.push(barrier);
@@ -115,20 +131,7 @@ var ObjectComponent = (function () {
         this.travelpath();
         this.newPos(barrier);
         this.ctx = this.game.context;
-        switch (this.type) {
-            case 'image':
-                this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-                break;
-            case 'text':
-                this.ctx.font = this.width + " " + this.height;
-                this.ctx.fillStyle = this.color;
-                this.ctx.fillText(this.text, this.x, this.y);
-                break;
-            default:
-                this.ctx.fillStyle = this.color;
-                this.ctx.fillRect(this.x, this.y, this.width, this.height);
-                break;
-        }
+        this.typeOf();
     };
     ObjectComponent.prototype.create = function (type) {
         if (type === "image") {

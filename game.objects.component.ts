@@ -35,8 +35,8 @@ export class ObjectComponent implements IGameObject {
         this.type = type;
         this.create(type);
         this.game.gameObjects.push(this)
-        // this.origin.x = xPos;
-        // this.origin.y = yPos;
+        this.typeOf();
+         
     }
     private newPos(barrier?) {
         this.x += this.speedX;
@@ -51,6 +51,21 @@ export class ObjectComponent implements IGameObject {
                 }
             }
         }
+    }
+
+    private typeOf() {
+        switch (this.type) {
+            case 'image':
+                this.ctx.drawImage(this.image,
+                    this.x,
+                    this.y,
+                    this.width, this.height); break;
+            case 'text': this.ctx.font = this.width + " " + this.height;
+                this.ctx.fillStyle = this.color;
+                this.ctx.fillText(this.text, this.x, this.y); break;
+            default: this.ctx.fillStyle = this.color;
+                this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
+        };
     }
     add(barrier: ObjectComponent) {
         this.barriers.push(barrier)
@@ -126,18 +141,7 @@ export class ObjectComponent implements IGameObject {
         this.travelpath();
         this.newPos(barrier);
         this.ctx = this.game.context;
-        switch (this.type) {
-            case 'image': //this.image.onload = (() => this.imageReady(this.image))
-                this.ctx.drawImage(this.image,
-                    this.x,
-                    this.y,
-                    this.width, this.height); break;
-            case 'text': this.ctx.font = this.width + " " + this.height;
-                this.ctx.fillStyle = this.color;
-                this.ctx.fillText(this.text, this.x, this.y); break;
-            default: this.ctx.fillStyle = this.color;
-                this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
-        }
+        this.typeOf();
 
     }
     private create(type) {
