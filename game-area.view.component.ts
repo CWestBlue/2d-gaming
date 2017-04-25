@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
     selector: 'app-game-area',
     template: `<div id="area"></div>`
 })
-export class GameAreaCom implements OnInit {
+export class TwoDGaming implements OnInit {
     constructor() { }
 
     ngOnInit() { }

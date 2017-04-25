@@ -28,7 +28,6 @@ export interface IGameObject {
     speedX: number;
     speedY: number;
     gravity: number;
-    gravitySpeed: number;
     ctx: CanvasRenderingContext2D;
     type?: string;
     image: any;

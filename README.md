@@ -9,31 +9,39 @@ I just started working on my website.
 
 ### Installing
 1. Run npm instll 2d-gaming
-2. Import { TwoDGamingModule } from '2d-gaming'; Into your module
-3. Import { GameAreaComponent, ObjectComponent } from '2d-gaming' into the file of your game.
+2. Import { TwoDGaming } from '2d-gaming'; Into your module
+3. Import { GameAreaObject, ObjectComponent } from '2d-gaming' into the file of your game.
 
 
 ### Getting Started
 ##### Setup your game
 1. Setup your game area. Each area object will have a name, width, height and gravity.
 ```typescript
-    import { GameAreaComponent, ObjectComponent } from '2d-gaming';
+    import { GameAreaObject, ObjectComponent } from '2d-gaming';
 
     @Component({
     selector: 'app-game',
     templateUrl: './space.component.html'
     })
-    export class GameComponent {        //name      width   height
-    gameArea = new GameAreaObject('angryBook', '300px', '300px'); // Your game plane
-    gameArea.gravity = 0;
+    export class GameComponent implements OnInit{    
+        gameArea: GameAreaObject;
+        
+
+        ngOnInit() {                   // Name         Width     Height
+            this.gameArea = new GameAreaObject('angryBook', '300px', '300px'); 
+            // this is your gameArea plane
+            this.gameArea.gravity = 0; // Can set the gravity of your gameArea
+        }
     };
   ```
   ```html
   <!--- In html place this tag -->
   <app-game-area></app-game-area>
   ```
-  2. Now you can add a player. The ObjectComponent takes in a gameAreaObject, wdith, height, color or image url, x position, y position, a type (color/image/text).
+2. Now you can add a player. The ObjectComponent takes in a gameAreaObject, wdith, height, color or image url, x position, y position, a type (color/image/text).
   ```typescript
+    player: ObjectComponent;
+    // now inside your ngOnInit;
     this.player = 
     new ObjectComponent(this.gameArea, 20, 20, 'green', 150, 150, this.gameArea, 'color');
      // Create a play with ObjectComponent
@@ -41,8 +49,9 @@ I just started working on my website.
 
   ```
 
-  3.  We need to create an update game function that will run ever frame rate. The reason we do this is an object add to the game plane will not be updated for example the previous spot. It would just add a second one.
+3.  We need to create an update game function that will run ever frame rate. The reason we do this is an object add to the game plane will not be updated for example the previous spot. It would just add a second one.
   ```typescript
+  // place this inside ngOnInit
     this.gameArea.doEveryFrame = (() => this.updateGameArea)
 
     updateGameArea() {
@@ -51,7 +60,19 @@ I just started working on my website.
         this.player.update(true); // reDraws the player. It can also take  a groundObject, and  true or false if you want barriers. 
     }
   ```
-  4. Lets give our player movement. object.speedX & speedY move the object in that direction of y or x until set to 0.
+4. Now Start your Game.
+  ```typescript
+    // Create a start function
+     start() {
+         this.gameArea.start() // This will start the game frames
+     }
+  ```
+  ``` html
+    // Inside your html add this
+    <button (click)="start()"></button>
+  ```
+
+5. Lets give our player movement. object.speedX & speedY move the object in that direction of y or x until set to 0.
   ```typescript
      @HostListener('document:keyup', ['$event'])
 
@@ -82,7 +103,7 @@ I just started working on my website.
       }
     }
   ```
-  5. Lets add an object that will move from one point to another. To do this we set object.path. The path object has a x and y value for the points you want your object to move to.
+  6. Lets add an object that will move from one point to another. To do this we set object.path. The path object has a x and y value for the points you want your object to move to.
   ```typescript
     let movingObject = new ObjectComponent(this.gameArea, 20, 20, "red", 100, 100, 'color' );
     movingObject.path = {
@@ -120,7 +141,6 @@ I just started working on my website.
 | y         | y postion on plane|
 | speedX    | speed on the x axis |
 | speedY    | speed on the y axis |
-| gravitySpeed | the rate of failling speed increases |
 | text | text of object if it is of type text |
 | path | creates a path for the object to travel to. Object that has x, y and speed properties|
 

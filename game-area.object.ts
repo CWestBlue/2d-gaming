@@ -9,6 +9,7 @@ export class GameAreaObject implements IGameArea {
     canvas = document.createElement('canvas')
     context = (<CanvasRenderingContext2D>this.canvas.getContext('2d'));
     frame = 0;
+    private startOn: boolean = false;
     interval: any;
     gameObjects: ObjectComponent[] = [];
     area = document.getElementById('area');
@@ -24,14 +25,18 @@ export class GameAreaObject implements IGameArea {
     }
 
     start() {
+        if(this.startOn === false){
         if (this.doEveryFrame) {
             this.interval = setInterval(() => { this.doEveryFrame(); }, 20);
+            this.startOn = true;
         }
+    }
     }
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
     stop() {
+        this.startOn = false;
         clearInterval(this.interval);
         this.gameObjects.forEach(res => {
             if (res.bullets) {

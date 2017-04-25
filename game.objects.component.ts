@@ -8,10 +8,10 @@ export class ObjectComponent implements IGameObject {
     y: number;
     speedX: number;
     speedY: number;
+    origin: ObjectComponent;
     private barriers: ObjectComponent[] = [];
     gravity: number;
     bullets: ObjectComponent[] = [];
-    gravitySpeed = 0;
     ctx: CanvasRenderingContext2D;
     private isShoot: boolean;
     image: any;
@@ -35,17 +35,19 @@ export class ObjectComponent implements IGameObject {
         this.type = type;
         this.create(type);
         this.game.gameObjects.push(this)
+        // this.origin.x = xPos;
+        // this.origin.y = yPos;
     }
     private newPos(barrier?) {
         this.x += this.speedX;
-        this.y += this.speedY = this.gravitySpeed;
-        this.gravitySpeed += this.gravity;
+        this.y += this.speedY;
+        this.speedY += this.gravity;
         if (barrier) {
             if (this.hitBarrier()) {
                 if (!(this.leavesWith() === 'bottom')) {
                     return;
                 } else {
-                    this.gravitySpeed = 0;
+                    this.speedY = 0;
                 }
             }
         }
@@ -60,7 +62,7 @@ export class ObjectComponent implements IGameObject {
             switch (this.leavesWith()) {
                 case 'right': this.x = this.game.canvas.width - this.width; this.speedX = 0 ; break;
                 case 'left': this.x = 0 ; break;
-                case 'bottom': this.y = this.game.canvas.height - this.height; this.gravitySpeed = 0;
+                case 'bottom': this.y = this.game.canvas.height - this.height; this.speedY = 0;
                     this.speedY = 0;
                     // this.gravity = 0;
                      break;
@@ -84,7 +86,7 @@ export class ObjectComponent implements IGameObject {
             let deltaY = this.path.y - this.y;
             let angle = Math.atan2(deltaY, deltaX);
             this.speedX = this.path.speed * Math.cos(angle);
-            this.gravitySpeed = this.path.speed * Math.sin(angle);
+            this.speedY = this.path.speed * Math.sin(angle);
             if (this.isShoot) {
                 this.path.x += deltaX;
                 this.path.y += deltaY;
@@ -95,8 +97,8 @@ export class ObjectComponent implements IGameObject {
     }
     jump(n) {
         console.log('madeit');
-        const originalSpeed = this.gravitySpeed;
-        this.gravitySpeed = -n;
+        const originalSpeed = this.speedY;
+        this.speedY = -n;
         // setTimeout(() => { this.gravitySpeed = originalSpeed; }, 40);
     }
     shoot(x, y, speed, object: ObjectComponent) {
@@ -147,7 +149,7 @@ export class ObjectComponent implements IGameObject {
         this.speedX = 0;
         this.speedY = 0;
         this.gravity = this.game.gravity;
-        this.gravitySpeed = 0;
+        this.speedY = 0;
         this.ctx = this.game.context
     }
     crashWith(otherobj): boolean {

@@ -8,6 +8,7 @@ var GameAreaObject = (function () {
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');
         this.frame = 0;
+        this.startOn = false;
         this.gameObjects = [];
         this.area = document.getElementById('area');
         this.height = height;
@@ -21,8 +22,11 @@ var GameAreaObject = (function () {
     }
     GameAreaObject.prototype.start = function () {
         var _this = this;
-        if (this.doEveryFrame) {
-            this.interval = setInterval(function () { _this.doEveryFrame(); }, 20);
+        if (this.startOn === false) {
+            if (this.doEveryFrame) {
+                this.interval = setInterval(function () { _this.doEveryFrame(); }, 20);
+                this.startOn = true;
+            }
         }
     };
     GameAreaObject.prototype.clear = function () {
@@ -30,6 +34,7 @@ var GameAreaObject = (function () {
     };
     GameAreaObject.prototype.stop = function () {
         var _this = this;
+        this.startOn = false;
         clearInterval(this.interval);
         this.gameObjects.forEach(function (res) {
             if (res.bullets) {

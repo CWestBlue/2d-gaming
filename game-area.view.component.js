@@ -8,18 +8,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-var GameAreaCom = (function () {
-    function GameAreaCom() {
+var TwoDGaming = (function () {
+    function TwoDGaming() {
     }
-    GameAreaCom.prototype.ngOnInit = function () { };
-    return GameAreaCom;
+    TwoDGaming.prototype.ngOnInit = function () { };
+    return TwoDGaming;
 }());
-GameAreaCom = __decorate([
+TwoDGaming = __decorate([
     Component({
         selector: 'app-game-area',
         template: "<div id=\"area\"></div>"
     }),
     __metadata("design:paramtypes", [])
-], GameAreaCom);
-export { GameAreaCom };
+], TwoDGaming);
+export { TwoDGaming };
 //# sourceMappingURL=game-area.view.component.js.map

@@ -5,7 +5,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { NgModule } from '@angular/core';
-import { GameAreaCom } from "./game-area.view.component";
+import { ObjectComponent } from './game.objects.component';
+import { TwoDGaming } from "./game-area.view.component";
+import { GameAreaObject } from './game-area.object';
+export { TwoDGaming } from "./game-area.view.component";
+export { GameAreaObject } from './game-area.object';
 var TwoDGamingModule = (function () {
     function TwoDGamingModule() {
     }
@@ -15,8 +19,8 @@ TwoDGamingModule = __decorate([
     NgModule({
         id: module.id,
         imports: [],
-        exports: [GameAreaCom],
-        declarations: [GameAreaCom],
+        exports: [TwoDGaming, ObjectComponent, GameAreaObject],
+        declarations: [TwoDGaming],
         providers: []
     })
 ], TwoDGamingModule);

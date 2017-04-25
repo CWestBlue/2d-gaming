@@ -2,7 +2,6 @@ var ObjectComponent = (function () {
     function ObjectComponent(game, width, height, look, xPos, yPos, type) {
         this.barriers = [];
         this.bullets = [];
-        this.gravitySpeed = 0;
         this.score = 1;
         this.game = game;
         this.width = width;
@@ -13,18 +12,20 @@ var ObjectComponent = (function () {
         this.type = type;
         this.create(type);
         this.game.gameObjects.push(this);
+        // this.origin.x = xPos;
+        // this.origin.y = yPos;
     }
     ObjectComponent.prototype.newPos = function (barrier) {
         this.x += this.speedX;
-        this.y += this.speedY = this.gravitySpeed;
-        this.gravitySpeed += this.gravity;
+        this.y += this.speedY;
+        this.speedY += this.gravity;
         if (barrier) {
             if (this.hitBarrier()) {
                 if (!(this.leavesWith() === 'bottom')) {
                     return;
                 }
                 else {
-                    this.gravitySpeed = 0;
+                    this.speedY = 0;
                 }
             }
         }
@@ -47,7 +48,7 @@ var ObjectComponent = (function () {
                     break;
                 case 'bottom':
                     this.y = this.game.canvas.height - this.height;
-                    this.gravitySpeed = 0;
+                    this.speedY = 0;
                     this.speedY = 0;
                     // this.gravity = 0;
                     break;
@@ -73,7 +74,7 @@ var ObjectComponent = (function () {
             var deltaY = this.path.y - this.y;
             var angle = Math.atan2(deltaY, deltaX);
             this.speedX = this.path.speed * Math.cos(angle);
-            this.gravitySpeed = this.path.speed * Math.sin(angle);
+            this.speedY = this.path.speed * Math.sin(angle);
             if (this.isShoot) {
                 this.path.x += deltaX;
                 this.path.y += deltaY;
@@ -85,8 +86,8 @@ var ObjectComponent = (function () {
     };
     ObjectComponent.prototype.jump = function (n) {
         console.log('madeit');
-        var originalSpeed = this.gravitySpeed;
-        this.gravitySpeed = -n;
+        var originalSpeed = this.speedY;
+        this.speedY = -n;
         // setTimeout(() => { this.gravitySpeed = originalSpeed; }, 40);
     };
     ObjectComponent.prototype.shoot = function (x, y, speed, object) {
@@ -138,7 +139,7 @@ var ObjectComponent = (function () {
         this.speedX = 0;
         this.speedY = 0;
         this.gravity = this.game.gravity;
-        this.gravitySpeed = 0;
+        this.speedY = 0;
         this.ctx = this.game.context;
     };
     ObjectComponent.prototype.crashWith = function (otherobj) {

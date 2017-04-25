@@ -2,7 +2,7 @@
   "name": "2d-gaming",
   "version": "1.6.3",
   "license": "MIT",
-  "module": "game.model.ts",
+  "module": "./index.ts",
   "scripts": {},
   "repository": {
     "type": "git",
