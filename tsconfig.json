@@ -9,7 +9,6 @@
       "es2015",
       "dom"
     ],
-    "outDir": ".",
     "target": "es5",
     "module": "es2015",
     "baseUrl": "",
@@ -17,6 +16,8 @@
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "node_modules",
+    "dist"
   ]
 }
