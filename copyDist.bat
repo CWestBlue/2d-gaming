@@ -1,3 +1,4 @@
+ @ECHO OFF
 rmdir dist
 mkdir dist
 MOVE *.js dist\
