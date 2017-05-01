@@ -21,22 +21,24 @@ export class ObjectComponent implements IGameObject {
     path: IPath;
     text: any;
     game: GameAreaObject;
+    radius: number;
     constructor(
         game: GameAreaObject, width: any,
         height: any, look: string, xPos: number,
-        yPos: number, type: string
+        yPos: number, type: string, radius?: number
     ) {
         this.game = game;
         this.width = width;
-        this.height = height,
-            this.color = look;
+        this.height = height;
+        this.radius = radius;
+        this.color = look;
         this.x = xPos;
         this.y = yPos;
         this.type = type;
         this.create(type);
         this.game.gameObjects.push(this)
         this.typeOf();
-         
+
     }
     private newPos(barrier?) {
         this.x += this.speedX;
@@ -63,6 +65,12 @@ export class ObjectComponent implements IGameObject {
             case 'text': this.ctx.font = this.width + " " + this.height;
                 this.ctx.fillStyle = this.color;
                 this.ctx.fillText(this.text, this.x, this.y); break;
+            case 'circle':
+                let centerX = this.width / 2;
+                let centerY = this.height / 2;
+                this.ctx.beginPath();
+                this.ctx.fillStyle = this.color;
+                this.ctx.arc(centerX, centerY, this.radius, 0, 2 * Math.PI, false);
             default: this.ctx.fillStyle = this.color;
                 this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
         };
@@ -75,12 +83,12 @@ export class ObjectComponent implements IGameObject {
         let bottom = this.game.canvas.height
         if (this.leavesWith()) {
             switch (this.leavesWith()) {
-                case 'right': this.x = this.game.canvas.width - this.width; this.speedX = 0 ; break;
-                case 'left': this.x = 0 ; break;
+                case 'right': this.x = this.game.canvas.width - this.width; this.speedX = 0; break;
+                case 'left': this.x = 0; break;
                 case 'bottom': this.y = this.game.canvas.height - this.height; this.speedY = 0;
                     this.speedY = 0;
                     // this.gravity = 0;
-                     break;
+                    break;
                 case 'top': this.y = 0; break;
             }
             return true;
@@ -187,7 +195,7 @@ export class ObjectComponent implements IGameObject {
             (mybottom > otherbottom) ||
             (myleft < otherleft) ||
             (myright > otherright)) {
-             if (mytop < othertop) {
+            if (mytop < othertop) {
                 return 'top';
             }
             if (mybottom > otherbottom) {
@@ -200,7 +208,7 @@ export class ObjectComponent implements IGameObject {
                 return 'right';
             }
         } else {
-           return;
+            return;
         }
     }
 }
