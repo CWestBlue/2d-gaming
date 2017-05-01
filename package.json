@@ -7,7 +7,7 @@
     "build": "build",
     "type": "typesGenerate",
     "copy": "copyDist",
-    "publish": "npm run build && npm run type && npm run copy"
+    "publish": "npm run type && npm run build && npm run copy"
   },
   "repository": {
     "type": "git",
