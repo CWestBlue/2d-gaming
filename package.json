@@ -2,7 +2,7 @@
   "name": "2d-gaming",
   "version": "1.8.3",
   "license": "MIT",
-  "main": "./index.js",
+  "module": "index.js",
   "typings": "2d-gaming.d.ts",
   "scripts": {
     "build": "build",
