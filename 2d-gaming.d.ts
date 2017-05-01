@@ -50,7 +50,7 @@ declare module '2d-gaming/game-area.view.component' {
 	}
 
 }
-declare module '2d-gaming/index' {
+declare module '2d-gaming' {
 	export * from '2d-gaming/game-area.object';
 	export * from '2d-gaming/game.objects.component';
 	export * from '2d-gaming/game.models';
@@ -59,7 +59,7 @@ declare module '2d-gaming/index' {
 }
 declare module '2d-gaming/game.objects.component' {
 	import { GameAreaObject } from '2d-gaming/game-area.object';
-	import { IPath, IGameObject } from '2d-gaming/index';
+	import { IPath, IGameObject } from '2d-gaming';
 	export class ObjectComponent implements IGameObject {
 	    width: number;
 	    height: number;
