@@ -1,6 +1,6 @@
 {
   "name": "2d-gaming",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "license": "MIT",
   "module": "index.js",
   "typings": "2d-gaming.d.ts",
