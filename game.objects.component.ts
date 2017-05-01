@@ -68,9 +68,13 @@ export class ObjectComponent implements IGameObject {
             case 'circle':
                 let centerX = this.width / 2;
                 let centerY = this.height / 2;
+                let first = centerY + centerX;
+                this.radius = first / 2;
                 this.ctx.beginPath();
+                this.ctx.arc(this.x + centerX, this.y + centerY, this.radius , 0, 2 * Math.PI, false);
                 this.ctx.fillStyle = this.color;
-                this.ctx.arc(centerX, centerY, this.radius, 0, 2 * Math.PI, false);
+                this.ctx.fill();
+                 break;
             default: this.ctx.fillStyle = this.color;
                 this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
         };
