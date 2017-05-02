@@ -2,10 +2,8 @@
 
 ### Description
 This is an Angular package fo developing 2d games in angular.
-[Please Give Feedback Here](https://cwestblue.github.io/deployWeb/forms).
+[Please report issues/questions/any ideas to better help this package](https://github.com/CWestBlue/2d-gaming/issues).
 
-######Side Note
-I just started working on my website.
 
 ### Installing
 1. Run npm instll 2d-gaming
