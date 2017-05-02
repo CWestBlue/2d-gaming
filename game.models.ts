@@ -15,27 +15,54 @@ export interface IGameArea {
     everyinterval(frames: number);
 }
 export interface IPath {
-    x: number,
-    y: number
-    speed: number
+    x: number;
+    y: number;
+    speed: number;
+    infinit: boolean;
+}
+
+export interface IFrameItem {
+    object: IGameObject;
+    frame: number;
+}
+export interface IAnimation {
+    length: number;
+    loop: boolean;
+    speed: number;
+    frameItems: IFrameItem[];
+    start: () => void;
+
+
+}
+
+export interface IMovement {
+    
+}
+
+export interface IGamePhysics {
+    gravity: number;
+    windStrength: number;
+    windDirection: string;
+}
+
+export interface IDesign {
+    image: any;
+    color: string;
+    shape: string;
+    height: number;
+    width: number;
 }
 
 export interface IGameObject {
-    width: number;
-    height: number;
     x: number;
     y: number;
     speedX: number;
     speedY: number;
     gravity: number;
     ctx: CanvasRenderingContext2D;
-    type?: string;
-    image: any;
-    color: any;
     score: number;
     path: IPath;
-    text: any;
-    update: (barrier, ground) => void;
+    update: (barrier?, ground?) => void;
     crashWith: (object) => boolean;
     shoot: (x, y, speed, object) => void;
     jump: (speed: number) => void;

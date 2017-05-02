@@ -6,4 +6,4 @@ MOVE *.map dist\
 XCOPY *.d.ts dist\
 XCOPY *.json dist\*
 cd dist
-npm publish
+REM npm publish

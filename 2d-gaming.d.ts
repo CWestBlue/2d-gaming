@@ -20,6 +20,17 @@ declare module '2d-gaming/game.models' {
 	    y: number;
 	    speed: number;
 	}
+	export interface IFrameItem {
+	    object: IGameObject;
+	    frame: number;
+	}
+	export interface IAnimation {
+	    length: number;
+	    loop: boolean;
+	    speed: number;
+	    frameItems: IFrameItem[];
+	    start: () => void;
+	}
 	export interface IGameObject {
 	    width: number;
 	    height: number;
@@ -35,11 +46,28 @@ declare module '2d-gaming/game.models' {
 	    score: number;
 	    path: IPath;
 	    text: any;
-	    update: (barrier, ground) => void;
+	    update: (barrier?, ground?) => void;
 	    crashWith: (object) => boolean;
 	    shoot: (x, y, speed, object) => void;
 	    jump: (speed: number) => void;
 	    readonly radius: number;
+	}
+
+}
+declare module '2d-gaming/animator.component' {
+	import { IFrameItem, IAnimation, IGameObject } from '2d-gaming/game.models';
+	export class Animation implements IAnimation {
+	    length: number;
+	    loop: boolean;
+	    speed: number;
+	    frame: number;
+	    frameItems: IFrameItem[];
+	    private interval;
+	    constructor(length: number, loop: boolean, speed: number);
+	    addObject(frame: number, item: IGameObject): void;
+	    start(): void;
+	    stop(): void;
+	    animationScript(): void;
 	}
 
 }
@@ -56,6 +84,7 @@ declare module '2d-gaming' {
 	export * from '2d-gaming/game.objects.component';
 	export * from '2d-gaming/game.models';
 	export * from '2d-gaming/game-area.view.component';
+	export * from '2d-gaming/animator.component';
 
 }
 declare module '2d-gaming/game.objects.component' {
@@ -78,6 +107,7 @@ declare module '2d-gaming/game.objects.component' {
 	    type: string;
 	    color: any;
 	    score: number;
+	    barrier: boolean;
 	    private centerX;
 	    private centerY;
 	    path: IPath;
@@ -126,6 +156,7 @@ declare module '2d-gaming/game-area.object' {
 declare module '2d-gaming/game.module' {
 	export { TwoDGaming } from '2d-gaming/game-area.view.component';
 	export { GameAreaObject } from '2d-gaming/game-area.object';
+	export { Animation } from '2d-gaming/animator.component';
 	export class TwoDGamingModule {
 	}
 

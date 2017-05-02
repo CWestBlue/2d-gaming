@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef, Inject } from '@angular/core';
 import { IGameArea } from "./game.models";
 import { ObjectComponent } from './game.objects.component';
+import { ObjectArray } from './ObjectLogic/ammo.component';
+import { CrashComponent } from './ObjectLogic/crashLogic.component';
 import * as _ from 'lodash';
 
 export class GameAreaObject implements IGameArea {
@@ -11,7 +13,9 @@ export class GameAreaObject implements IGameArea {
     frame = 0;
     private startOn: boolean = false;
     interval: any;
-    gameObjects: ObjectComponent[] = [];
+    crashHandler: CrashComponent;
+    gameObjects: ObjectArray;
+    barriers: ObjectArray;
     area = document.getElementById('area');
     constructor(public name: string, public width: string, public height: string) {
         this.height = height;
@@ -22,12 +26,16 @@ export class GameAreaObject implements IGameArea {
         this.canvas.style.height = height;
         this.area.id = name;
         this.area.appendChild(this.canvas);
+        this.gameObjects = new ObjectArray();
+        this.barriers = new ObjectArray();
+        this.crashHandler = new CrashComponent(this.gameObjects, this.barriers);
     }
 
     start() {
+        console.log('started');
         if(this.startOn === false){
         if (this.doEveryFrame) {
-            this.interval = setInterval(() => { this.doEveryFrame(); }, 20);
+            this.interval = setInterval(() => { this.doEveryFrame(); this.crashHandler.newPos(true); }, 20);
             this.startOn = true;
         }
     }
@@ -38,12 +46,12 @@ export class GameAreaObject implements IGameArea {
     stop() {
         this.startOn = false;
         clearInterval(this.interval);
-        this.gameObjects.forEach(res => {
+        this.gameObjects.items.forEach(res => {
             if (res.bullets) {
                 res.bullets.forEach(bull => {
                     this.context.clearRect(bull.x, bull.y, bull.width, bull.height)
                     let index = _.findIndex(this.gameObjects, (o) => { return o === bull });
-                    this.gameObjects.splice(index, 1);
+                    this.gameObjects.items.splice(index, 1);
                 })
                 res.bullets = [];
             }
