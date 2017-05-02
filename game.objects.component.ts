@@ -18,23 +18,28 @@ export class ObjectComponent implements IGameObject {
     type: string;
     color: any;
     score: number = 1;
+    private centerX: number;
+    private centerY: number;
     path: IPath;
     text: any;
     game: GameAreaObject;
-    radius: number;
+    readonly radius: number;
     constructor(
         game: GameAreaObject, width: any,
         height: any, look: string, xPos: number,
-        yPos: number, type: string, radius?: number
+        yPos: number, type: string
     ) {
         this.game = game;
         this.width = width;
         this.height = height;
-        this.radius = radius;
         this.color = look;
         this.x = xPos;
         this.y = yPos;
         this.type = type;
+        this.centerY = this.height / 2;
+        this.centerX = this.width / 2;
+        let first = this.centerY + this.centerX;
+        this.radius = first / 2;
         this.create(type);
         this.game.gameObjects.push(this)
         this.typeOf();
@@ -66,15 +71,11 @@ export class ObjectComponent implements IGameObject {
                 this.ctx.fillStyle = this.color;
                 this.ctx.fillText(this.text, this.x, this.y); break;
             case 'circle':
-                let centerX = this.width / 2;
-                let centerY = this.height / 2;
-                let first = centerY + centerX;
-                this.radius = first / 2;
                 this.ctx.beginPath();
-                this.ctx.arc(this.x + centerX, this.y + centerY, this.radius , 0, 2 * Math.PI, false);
+                this.ctx.arc(this.x + this.centerX, this.y + this.centerY, this.radius, 0, 2 * Math.PI, false);
                 this.ctx.fillStyle = this.color;
                 this.ctx.fill();
-                 break;
+                break;
             default: this.ctx.fillStyle = this.color;
                 this.ctx.fillRect(this.x, this.y, this.width, this.height); break;
         };

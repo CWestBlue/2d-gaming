@@ -143,6 +143,7 @@ I just started working on my website.
 | speedY    | speed on the y axis |
 | text | text of object if it is of type text |
 | path | creates a path for the object to travel to. Object that has x, y and speed properties|
+| type | TypeOf circle/image/square |
 
 ### GameComponent
 | call      | Description         | Paramaters  |

@@ -39,7 +39,7 @@ declare module '2d-gaming/game.models' {
 	    crashWith: (object) => boolean;
 	    shoot: (x, y, speed, object) => void;
 	    jump: (speed: number) => void;
-	    radius: number;
+	    readonly radius: number;
 	}
 
 }
@@ -78,11 +78,13 @@ declare module '2d-gaming/game.objects.component' {
 	    type: string;
 	    color: any;
 	    score: number;
+	    private centerX;
+	    private centerY;
 	    path: IPath;
 	    text: any;
 	    game: GameAreaObject;
-	    radius: number;
-	    constructor(game: GameAreaObject, width: any, height: any, look: string, xPos: number, yPos: number, type: string, radius?: number);
+	    readonly radius: number;
+	    constructor(game: GameAreaObject, width: any, height: any, look: string, xPos: number, yPos: number, type: string);
 	    private newPos(barrier?);
 	    private typeOf();
 	    add(barrier: ObjectComponent): void;
