@@ -24,30 +24,56 @@ export class CrashComponent {
         }
         if (object.game.barriers.items.length > 0) {
             object.game.barriers.items.forEach(obj => {
-                if (this.crashWith(object, obj)) {
-                    object.postion.yPos = obj.postion.yPos - object.design.height;
+                console.log(this.crashWithSide(object, obj));
+                if (!(this.crashWithSide(object, obj) === 'false')) {
+                    this.addClip(this.crashWithSide(object, obj), object, obj);
                     return true;
                 }
             })
         }
         return false;
     }
-    crashWith(currentObj: ObjectComponent, otherobj): boolean {
+
+    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent) {
+        // console.log(side);
+        switch(side) {
+            case 'top': object.postion.yPos = barrier.postion.yPos - object.design.height; break;
+            case 'bottom': object.postion.yPos = barrier.postion.yPos + barrier.design.height; break;
+            case 'right': object.postion.xPos = barrier.postion.xPos + barrier.design.width; break;
+            case 'left': object.postion.xPos = barrier.postion.xPos - object.design.width; break;
+        }
+    }
+    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string {
         let myleft = currentObj.postion.xPos;
         let myright = currentObj.postion.xPos + (currentObj.design.width);
         let mytop = currentObj.postion.yPos;
         let mybottom = currentObj.postion.yPos + (currentObj.design.height);
-        let otherleft = otherobj.x;
-        let otherright = otherobj.x + (otherobj.width);
-        let othertop = otherobj.y;
-        let otherbottom = otherobj.y + (otherobj.height);
+        let otherleft = otherobj.postion.xPos;
+        let otherright = otherobj.postion.xPos + (otherobj.design.width);
+        let othertop = otherobj.postion.yPos;
+        let otherbottom = otherobj.postion.yPos + (otherobj.design.height);
         if ((mybottom < othertop) ||
             (mytop > otherbottom) ||
             (myright < otherleft) ||
             (myleft > otherright)) {
-            return false;
+            return 'false';
         } else {
-            return true;
+            if(mybottom > othertop && mytop < othertop) {
+                // this.addClip('top', currentObj, otherobj)
+                return 'top';
+            }
+            if(mytop < otherbottom && mybottom > otherbottom) {
+                // this.addClip('bottom', currentObj, otherobj)
+                return 'bottom';
+            }
+            if(myright > otherleft && myleft < otherleft) {
+                // this.addClip('left', currentObj, otherobj)
+                return 'left';
+            }
+            if(myleft < otherright && myright > otherright) {
+                // this.addClip('right', currentObj, otherobj)
+                return 'right';
+            }
         }
     }
     leavesWith(object: ObjectComponent): any {

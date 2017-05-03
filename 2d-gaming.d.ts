@@ -19,6 +19,7 @@ declare module '2d-gaming/game.models' {
 	    x: number;
 	    y: number;
 	    speed: number;
+	    infinit: boolean;
 	}
 	export interface IFrameItem {
 	    object: IGameObject;
@@ -31,26 +32,24 @@ declare module '2d-gaming/game.models' {
 	    frameItems: IFrameItem[];
 	    start: () => void;
 	}
-	export interface IGameObject {
-	    width: number;
-	    height: number;
-	    x: number;
-	    y: number;
-	    speedX: number;
-	    speedY: number;
+	export interface IMovement {
+	}
+	export interface IGamePhysics {
 	    gravity: number;
-	    ctx: CanvasRenderingContext2D;
-	    type?: string;
+	    windStrength: number;
+	    windDirection: string;
+	}
+	export interface IDesign {
 	    image: any;
-	    color: any;
+	    color: string;
+	    shape: string;
+	    height: any;
+	    width: any;
+	}
+	export interface IGameObject {
+	    ctx: CanvasRenderingContext2D;
 	    score: number;
-	    path: IPath;
-	    text: any;
-	    update: (barrier?, ground?) => void;
-	    crashWith: (object) => boolean;
 	    shoot: (x, y, speed, object) => void;
-	    jump: (speed: number) => void;
-	    readonly radius: number;
 	}
 
 }
@@ -61,13 +60,16 @@ declare module '2d-gaming/animator.component' {
 	    loop: boolean;
 	    speed: number;
 	    frame: number;
-	    frameItems: IFrameItem[];
+	    frameItems: any[];
+	    baseObject: IGameObject;
 	    private interval;
 	    constructor(length: number, loop: boolean, speed: number);
 	    addObject(frame: number, item: IGameObject): void;
 	    start(): void;
 	    stop(): void;
 	    animationScript(): void;
+	    fillTimeline(object: IFrameItem): void;
+	    getNextItemFrame(object: IFrameItem): IFrameItem;
 	}
 
 }
@@ -79,59 +81,132 @@ declare module '2d-gaming/game-area.view.component' {
 	}
 
 }
+declare module '2d-gaming/ObjectLogic/postion.component' {
+	export class PositionObject {
+	    xPos: number;
+	    yPos: number;
+	    constructor(xPos: number, yPos: number);
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/movement.component' {
+	import { IPath } from '2d-gaming/game.models';
+	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
+	export class MovementComponent {
+	    position: PositionObject;
+	    newPos: IPath;
+	    speedY: number;
+	    speedX: number;
+	    gravity: number;
+	    constructor(position: PositionObject, newPos?: IPath);
+	    moveRight(speed: any): void;
+	    moveLeft(speed: any): void;
+	    moveUp(speed: any): void;
+	    moveDown(speed: any): void;
+	    updateMovement(): void;
+	    private travelpath();
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/ammo.component' {
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	export class ObjectArray {
+	    item: ObjectComponent;
+	    howMany: number;
+	    items: ObjectComponent[];
+	    constructor(item?: ObjectComponent, howMany?: number);
+	    multiply(): void;
+	    update(): void;
+	    remove(objects: ObjectArray): void;
+	    add(item: ObjectComponent): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/updateFrame.component' {
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	export class UpdateHandler {
+	    objects: ObjectArray;
+	    constructor(objects: ObjectArray);
+	    update(): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/crashLogic.component' {
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	export class CrashComponent {
+	    object: ObjectArray;
+	    barriers: ObjectArray;
+	    constructor(object: ObjectArray, barriers: ObjectArray);
+	    private hitBarrier(object);
+	    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent): void;
+	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): any;
+	    leavesWith(object: ObjectComponent): any;
+	    newPos(barrier?: any): void;
+	}
+
+}
+declare module '2d-gaming/Design/objectDesign.component' {
+	import { IDesign } from '2d-gaming/game.models';
+	export class ObjectDesign implements IDesign {
+	    image: HTMLImageElement;
+	    color: string;
+	    shape: string;
+	    height: any;
+	    width: any;
+	    text: string;
+	    centerY: number;
+	    centerX: number;
+	    radius: number;
+	    constructor(width: any, height: any, shape: string, color: string, image?: any, text?: string);
+	}
+
+}
 declare module '2d-gaming' {
 	export * from '2d-gaming/game-area.object';
 	export * from '2d-gaming/game.objects.component';
 	export * from '2d-gaming/game.models';
 	export * from '2d-gaming/game-area.view.component';
 	export * from '2d-gaming/animator.component';
+	export * from '2d-gaming/ObjectLogic/movement.component';
+	export * from '2d-gaming/ObjectLogic/postion.component';
+	export * from '2d-gaming/ObjectLogic/updateFrame.component';
+	export * from '2d-gaming/ObjectLogic/crashLogic.component';
+	export * from '2d-gaming/ObjectLogic/ammo.component';
+	export * from '2d-gaming/Design/objectDesign.component';
 
 }
 declare module '2d-gaming/game.objects.component' {
 	import { GameAreaObject } from '2d-gaming/game-area.object';
-	import { IPath, IGameObject } from '2d-gaming';
+	import { IGameObject } from '2d-gaming';
+	import { ObjectDesign } from '2d-gaming/Design/objectDesign.component';
+	import { MovementComponent } from '2d-gaming/ObjectLogic/movement.component';
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
 	export class ObjectComponent implements IGameObject {
-	    width: number;
-	    height: number;
-	    x: number;
-	    y: number;
-	    speedX: number;
-	    speedY: number;
+	    game: GameAreaObject;
+	    design: ObjectDesign;
+	    postion: PositionObject;
 	    origin: ObjectComponent;
 	    private barriers;
-	    gravity: number;
-	    bullets: ObjectComponent[];
+	    bullets: ObjectArray;
 	    ctx: CanvasRenderingContext2D;
-	    private isShoot;
-	    image: any;
-	    type: string;
-	    color: any;
+	    startingPos: PositionObject;
+	    private update;
 	    score: number;
-	    barrier: boolean;
-	    private centerX;
-	    private centerY;
-	    path: IPath;
-	    text: any;
-	    game: GameAreaObject;
-	    readonly radius: number;
-	    constructor(game: GameAreaObject, width: any, height: any, look: string, xPos: number, yPos: number, type: string);
-	    private newPos(barrier?);
-	    private typeOf();
-	    add(barrier: ObjectComponent): void;
-	    private hitBarrier();
-	    private travelpath();
-	    jump(n: any): void;
+	    movement: MovementComponent;
+	    constructor(game: GameAreaObject, design: ObjectDesign, postion: PositionObject, isBarrier: boolean, isObjectDependent: boolean);
+	    draw(): void;
 	    shoot(x: any, y: any, speed: any, object: ObjectComponent): void;
-	    update(barrier?: any, ground?: any): void;
-	    private create(type);
-	    crashWith(otherobj: any): boolean;
-	    leavesWith(): any;
+	    private create();
 	}
 
 }
 declare module '2d-gaming/game-area.object' {
 	import { IGameArea } from '2d-gaming/game.models';
-	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	import { CrashComponent } from '2d-gaming/ObjectLogic/crashLogic.component';
+	import { UpdateHandler } from '2d-gaming/ObjectLogic/updateFrame.component';
 	export class GameAreaObject implements IGameArea {
 	    name: string;
 	    width: string;
@@ -143,7 +218,11 @@ declare module '2d-gaming/game-area.object' {
 	    frame: number;
 	    private startOn;
 	    interval: any;
-	    gameObjects: ObjectComponent[];
+	    crashHandler: CrashComponent;
+	    update: UpdateHandler;
+	    gameObjects: ObjectArray;
+	    noneBarriers: ObjectArray;
+	    barriers: ObjectArray;
 	    area: HTMLElement;
 	    constructor(name: string, width: string, height: string);
 	    start(): void;
@@ -165,3 +244,9 @@ declare module '2d-gaming/game.module' {
 declare var module: {
   id: string;
 };
+declare module '2d-gaming/ObjectLogic/logic.component' {
+	export class LogicComponent {
+	    constructor();
+	}
+
+}

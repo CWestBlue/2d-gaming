@@ -4,13 +4,13 @@ export class ObjectDesign implements IDesign {
     image: HTMLImageElement;
     color: string;
     shape: string; // is type text/circle/image/sqaure
-    height: number;
-    width: number;
+    height: any;
+    width: any;
     text: string;
     centerY: number;
     centerX: number;
     radius: number;
-    constructor(width: number, height: number, shape: string, color: string, image?: any, text?: string) { 
+    constructor(width: any, height: any, shape: string, color: string, image?: any, text?: string) { 
         this.image = image;
         this.width = width;
         this.height = height;
@@ -20,6 +20,10 @@ export class ObjectDesign implements IDesign {
         this.centerX = this.width / 2;
         let first = this.centerY + this.centerX;
         this.radius = first / 2;
+         if (shape === 'image') {
+            this.image = new Image();
+            this.image.src = color;
+        }
     }
 
 }

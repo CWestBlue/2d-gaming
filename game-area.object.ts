@@ -17,6 +17,7 @@ export class GameAreaObject implements IGameArea {
     crashHandler: CrashComponent;
     update: UpdateHandler;
     gameObjects: ObjectArray;
+    noneBarriers: ObjectArray;
     barriers: ObjectArray;
     area = document.getElementById('area');
     constructor(public name: string, public width: string, public height: string) {
@@ -30,7 +31,8 @@ export class GameAreaObject implements IGameArea {
         this.area.appendChild(this.canvas);
         this.gameObjects = new ObjectArray();
         this.barriers = new ObjectArray();
-        this.crashHandler = new CrashComponent(this.gameObjects, this.barriers);
+        this.noneBarriers = new ObjectArray();
+        this.crashHandler = new CrashComponent(this.noneBarriers, this.barriers);
         this.update = new UpdateHandler(this.gameObjects);
     }
 
@@ -50,16 +52,20 @@ export class GameAreaObject implements IGameArea {
         this.startOn = false;
         clearInterval(this.interval);
         this.gameObjects.items.forEach(res => {
-            if (res.bullets.items) {
-                res.bullets.items.forEach(bull => {
-                    this.context.clearRect(bull.postion.xPos, bull.postion.yPos, bull.design.width, bull.design.height)
-                    let index = _.findIndex(this.gameObjects.items, (o) => { return o === bull });
-                    this.gameObjects.items.splice(index, 1);
-                })
-                res.bullets.items = [];
-            }
-            this.context.clearRect(res.postion.xPos, res.postion.yPos, res.design.width, res.design.height)
-            this.update.update();
+            // if (res.bullets.items) {
+            //     res.bullets.items.forEach(bull => {
+            //         this.context.clearRect(bull.postion.xPos, bull.postion.yPos, bull.design.width, bull.design.height)
+            //         let index = _.findIndex(this.gameObjects.items, (o) => { return o === bull });
+            //         this.gameObjects.items.splice(index, 1);
+            //     })
+            //     res.bullets.items = [];
+            // }
+            // this.context.clearRect(res.postion.xPos, res.postion.yPos, res.design.width, res.design.height)
+            console.log('now: ' + res.postion.xPos);
+            console.log('first: ' + res.startingPos.xPos);
+            // res.postion.xPos = res.startingPos.xPos;
+            // res.postion.yPos = res.startingPos.yPos;
+            // this.update.update();
         })
         this.frame = 0;
     }

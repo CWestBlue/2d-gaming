@@ -11,6 +11,7 @@ export class ObjectComponent implements IGameObject {
     private barriers: ObjectArray; 
     bullets: ObjectArray;
     ctx: CanvasRenderingContext2D;
+    startingPos: PositionObject;
     private update: UpdateHandler;
     score: number = 1;
     movement: MovementComponent;
@@ -23,9 +24,13 @@ export class ObjectComponent implements IGameObject {
     ) {
         this.bullets = new ObjectArray();
         this.movement = new MovementComponent(postion);
+        this.startingPos = new PositionObject(postion.xPos, postion.yPos);
         this.create();
         if(isBarrier) {
             this.game.barriers.add(this);
+        }
+        if(isBarrier === false) {
+            this.game.noneBarriers.add(this);
         }
         if(isObjectDependent === false) {
             this.game.gameObjects.add(this)
@@ -37,6 +42,7 @@ export class ObjectComponent implements IGameObject {
          draw() {
         switch (this.design.shape) {
             case 'image':
+            // console.log(this.design.image);
                 this.ctx.drawImage(this.design.image,
                     this.postion.xPos,
                     this.postion.yPos,
@@ -93,10 +99,6 @@ export class ObjectComponent implements IGameObject {
 
     // }
     private create() {
-        if (this.design.image) {
-            this.design.image = new Image();
-            this.design.image.src = this.design.color;
-        }
         this.movement.speedX = 0;
         this.movement.speedY = 0;
         this.movement.gravity = this.game.gravity;

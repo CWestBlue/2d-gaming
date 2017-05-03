@@ -49,8 +49,8 @@ export interface IDesign {
     image: any;
     color: string;
     shape: string;
-    height: number;
-    width: number;
+    height: any;
+    width: any;
 }
 
 export interface IGameObject {
