@@ -54,17 +54,8 @@ export interface IDesign {
 }
 
 export interface IGameObject {
-    x: number;
-    y: number;
-    speedX: number;
-    speedY: number;
-    gravity: number;
     ctx: CanvasRenderingContext2D;
     score: number;
-    path: IPath;
-    update: (barrier?, ground?) => void;
-    crashWith: (object) => boolean;
+    // update: (barrier?, ground?) => void;
     shoot: (x, y, speed, object) => void;
-    jump: (speed: number) => void;
-   readonly radius: number;
 }

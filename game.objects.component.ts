@@ -4,50 +4,56 @@ import { IPath, IGameObject, IDesign } from "./index";
 import { ObjectDesign } from './Design/objectDesign.component';
 import { MovementComponent } from './ObjectLogic/movement.component';
 import { ObjectArray } from './ObjectLogic/ammo.component';
+import { PositionObject } from './ObjectLogic/postion.component';
+import { UpdateHandler } from './ObjectLogic/updateFrame.component';
 export class ObjectComponent implements IGameObject {
     origin: ObjectComponent;
     private barriers: ObjectArray; 
-    private bullets: ObjectArray;
+    bullets: ObjectArray;
     ctx: CanvasRenderingContext2D;
+    private update: UpdateHandler;
     score: number = 1;
-    barrier: boolean;
-    type: string;
+    movement: MovementComponent;
     constructor( 
         public game: GameAreaObject, 
         public design: ObjectDesign, 
-        public movement: MovementComponent,
+        public postion: PositionObject,
         isBarrier: boolean,
-        type: string
+        isObjectDependent: boolean
     ) {
-        this.type = type;
         this.bullets = new ObjectArray();
+        this.movement = new MovementComponent(postion);
         this.create();
         if(isBarrier) {
             this.game.barriers.add(this);
         }
+        if(isObjectDependent === false) {
             this.game.gameObjects.add(this)
-        this.typeOf();
+        }
+        this.update = new UpdateHandler(this.bullets);
+        this.draw();
 
     }
-    private typeOf() {
-        switch (this.type) {
+         draw() {
+        switch (this.design.shape) {
             case 'image':
                 this.ctx.drawImage(this.design.image,
-                    this.movement.xPos,
-                    this.movement.yPos,
+                    this.postion.xPos,
+                    this.postion.yPos,
                     this.design.width, this.design.height); break;
             case 'text': this.ctx.font = this.design.width + " " + this.design.height;
                 this.ctx.fillStyle = this.design.color;
-                this.ctx.fillText(this.design.text, this.movement.xPos, this.movement.yPos); break;
+                this.ctx.fillText(this.design.text, this.postion.xPos, this.postion.yPos); break;
             case 'circle':
                 this.ctx.beginPath();
-                this.ctx.arc(this.movement.xPos + this.design.centerX, this.movement.yPos + this.design.centerY, this.design.radius, 0, 2 * Math.PI, false);
+                this.ctx.arc(this.postion.xPos + this.design.centerX, this.postion.yPos + this.design.centerY, this.design.radius, 0, 2 * Math.PI, false);
                 this.ctx.fillStyle = this.design.color;
                 this.ctx.fill();
                 break;
             default: this.ctx.fillStyle = this.design.color;
-                this.ctx.fillRect(this.movement.xPos, this.movement.yPos, this.design.width, this.design.height); break;
+                this.ctx.fillRect(this.postion.xPos, this.postion.yPos, this.design.width, this.design.height); break;
         };
+        this.update.update();
     }
     shoot(x, y, speed, object: ObjectComponent) {
         // console.log('shoot')
@@ -91,11 +97,10 @@ export class ObjectComponent implements IGameObject {
             this.design.image = new Image();
             this.design.image.src = this.design.color;
         }
-        let groundCount = 0;
         this.movement.speedX = 0;
         this.movement.speedY = 0;
         this.movement.gravity = this.game.gravity;
         this.movement.speedY = 0;
-        this.ctx = this.game.context
+        this.ctx = this.game.context;
     }
 }

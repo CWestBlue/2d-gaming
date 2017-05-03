@@ -3,6 +3,7 @@ import { IGameArea } from "./game.models";
 import { ObjectComponent } from './game.objects.component';
 import { ObjectArray } from './ObjectLogic/ammo.component';
 import { CrashComponent } from './ObjectLogic/crashLogic.component';
+import { UpdateHandler } from './ObjectLogic/updateFrame.component';
 import * as _ from 'lodash';
 
 export class GameAreaObject implements IGameArea {
@@ -14,6 +15,7 @@ export class GameAreaObject implements IGameArea {
     private startOn: boolean = false;
     interval: any;
     crashHandler: CrashComponent;
+    update: UpdateHandler;
     gameObjects: ObjectArray;
     barriers: ObjectArray;
     area = document.getElementById('area');
@@ -29,13 +31,14 @@ export class GameAreaObject implements IGameArea {
         this.gameObjects = new ObjectArray();
         this.barriers = new ObjectArray();
         this.crashHandler = new CrashComponent(this.gameObjects, this.barriers);
+        this.update = new UpdateHandler(this.gameObjects);
     }
 
     start() {
         console.log('started');
         if(this.startOn === false){
         if (this.doEveryFrame) {
-            this.interval = setInterval(() => { this.doEveryFrame(); this.crashHandler.newPos(true); }, 20);
+            this.interval = setInterval(() => { this.doEveryFrame(); this.crashHandler.newPos(true); this.update.update(); }, 20);
             this.startOn = true;
         }
     }
@@ -47,16 +50,16 @@ export class GameAreaObject implements IGameArea {
         this.startOn = false;
         clearInterval(this.interval);
         this.gameObjects.items.forEach(res => {
-            if (res.bullets) {
-                res.bullets.forEach(bull => {
-                    this.context.clearRect(bull.x, bull.y, bull.width, bull.height)
-                    let index = _.findIndex(this.gameObjects, (o) => { return o === bull });
+            if (res.bullets.items) {
+                res.bullets.items.forEach(bull => {
+                    this.context.clearRect(bull.postion.xPos, bull.postion.yPos, bull.design.width, bull.design.height)
+                    let index = _.findIndex(this.gameObjects.items, (o) => { return o === bull });
                     this.gameObjects.items.splice(index, 1);
                 })
-                res.bullets = [];
+                res.bullets.items = [];
             }
-            this.context.clearRect(res.x, res.y, res.width, res.height)
-            res.update();
+            this.context.clearRect(res.postion.xPos, res.postion.yPos, res.design.width, res.design.height)
+            this.update.update();
         })
         this.frame = 0;
     }

@@ -18,7 +18,7 @@ export class Animation implements IAnimation {
     }
 
     addObject(frame: number, item: IGameObject) {
-        item.x = this.
+        // item.x = this.
         let newItem: IFrameItem = {
             frame: frame,
             object: item

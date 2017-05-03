@@ -3,7 +3,7 @@ import { IDesign } from '../game.models';
 export class ObjectDesign implements IDesign {
     image: HTMLImageElement;
     color: string;
-    shape: string;
+    shape: string; // is type text/circle/image/sqaure
     height: number;
     width: number;
     text: string;
