@@ -191,11 +191,6 @@ This is an Angular package fo developing 2d games in angular.
 | height    | height of the connected Object |
 | color     | is a color unless shape is image then is an image url|
 | text      | the text of an text shape |
-| x         | x postion on plane|
-| y         | y postion on plane|
-| speedX    | speed on the x axis |
-| speedY    | speed on the y axis |
-| path | creates a path for the object to travel to. Object that has x, y and speed properties|
 
 ### PositionObject
 | Name  | Description |
