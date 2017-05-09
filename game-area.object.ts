@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewContainerRef, Inject } from '@angular/core';
 import { IGameArea } from "./game.models";
 import { ObjectComponent } from './game.objects.component';
+import { ObjectArray } from './ObjectLogic/ammo.component';
+import { CrashComponent } from './ObjectLogic/crashLogic.component';
+import { UpdateHandler } from './ObjectLogic/updateFrame.component';
 import * as _ from 'lodash';
+import { GameObjectCategory } from './GameAreaLogic/object-category-setter';
 
 export class GameAreaObject implements IGameArea {
     doEveryFrame: () => void;
@@ -11,7 +15,10 @@ export class GameAreaObject implements IGameArea {
     frame = 0;
     private startOn: boolean = false;
     interval: any;
-    gameObjects: ObjectComponent[] = [];
+    crashHandler: CrashComponent;
+    update: UpdateHandler;
+    gameObjects: ObjectArray;
+    splitter: GameObjectCategory;
     area = document.getElementById('area');
     constructor(public name: string, public width: string, public height: string) {
         this.height = height;
@@ -22,15 +29,20 @@ export class GameAreaObject implements IGameArea {
         this.canvas.style.height = height;
         this.area.id = name;
         this.area.appendChild(this.canvas);
+        this.gameObjects = new ObjectArray();
+        this.update = new UpdateHandler(this.gameObjects);
+        this.splitter = new GameObjectCategory(this.gameObjects);
+        this.crashHandler = new CrashComponent(this.splitter.nonBarriers, this.splitter.barriers);
     }
 
     start() {
-        if(this.startOn === false){
-        if (this.doEveryFrame) {
-            this.interval = setInterval(() => { this.doEveryFrame(); }, 20);
-            this.startOn = true;
+        console.log('started');
+        if (this.startOn === false) {
+            if (this.doEveryFrame) {
+                this.interval = setInterval(() => {this.clear(); this.frame += 1; this.doEveryFrame(); this.splitter.clear(); this.splitter.set(); this.crashHandler.newPos(true); this.update.update(); }, 20);
+                this.startOn = true;
+            }
         }
-    }
     }
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -38,20 +50,30 @@ export class GameAreaObject implements IGameArea {
     stop() {
         this.startOn = false;
         clearInterval(this.interval);
-        this.gameObjects.forEach(res => {
-            if (res.bullets) {
-                res.bullets.forEach(bull => {
-                    this.context.clearRect(bull.x, bull.y, bull.width, bull.height)
-                    let index = _.findIndex(this.gameObjects, (o) => { return o === bull });
-                    this.gameObjects.splice(index, 1);
-                })
-                res.bullets = [];
-            }
-            this.context.clearRect(res.x, res.y, res.width, res.height)
-            res.update();
+        this.gameObjects.items.forEach(res => {
+            // if (res.bullets.items) {
+            //     res.bullets.items.forEach(bull => {
+            //         this.context.clearRect(bull.postion.xPos, bull.postion.yPos, bull.design.width, bull.design.height)
+            //         let index = _.findIndex(this.gameObjects.items, (o) => { return o === bull });
+            //         this.gameObjects.items.splice(index, 1);
+            //     })
+            //     res.bullets.items = [];
+            // }
+            // this.context.clearRect(res.postion.xPos, res.postion.yPos, res.design.width, res.design.height)
+            // console.log('now: ' + res.postion.xPos);
+            // res.postion.xPos = res.startingPos.xPos;
+            // res.postion.yPos = res.startingPos.yPos;
+            // this.update.update();
         })
+        // this.gameObjects.items = [];
+        
+        this.splitter.clear();
         this.frame = 0;
     }
+
+    // remove(object: ObjectArray) {
+    //     this.
+    // }
     everyinterval(frames: number) {
         if ((this.frame / frames) % 1 === 0) {
             return true;
