@@ -103,6 +103,7 @@ declare module '2d-gaming/ObjectLogic/movement.component' {
 	    moveLeft(speed: any): void;
 	    moveUp(speed: any): void;
 	    moveDown(speed: any): void;
+	    clearMovement(): void;
 	    updateMovement(): void;
 	    private travelpath();
 	}
@@ -163,6 +164,18 @@ declare module '2d-gaming/Design/objectDesign.component' {
 	}
 
 }
+declare module '2d-gaming/GameAreaLogic/object-category-setter' {
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	export class GameObjectCategory {
+	    gameObjects: ObjectArray;
+	    barriers: ObjectArray;
+	    nonBarriers: ObjectArray;
+	    constructor(gameObjects: ObjectArray);
+	    set(): void;
+	    clear(): void;
+	}
+
+}
 declare module '2d-gaming' {
 	export * from '2d-gaming/game-area.object';
 	export * from '2d-gaming/game.objects.component';
@@ -175,6 +188,7 @@ declare module '2d-gaming' {
 	export * from '2d-gaming/ObjectLogic/crashLogic.component';
 	export * from '2d-gaming/ObjectLogic/ammo.component';
 	export * from '2d-gaming/Design/objectDesign.component';
+	export * from '2d-gaming/GameAreaLogic/object-category-setter';
 
 }
 declare module '2d-gaming/game.objects.component' {
@@ -201,18 +215,6 @@ declare module '2d-gaming/game.objects.component' {
 	    draw(): void;
 	    shoot(x: any, y: any, speed: any, object: ObjectComponent): void;
 	    private create();
-	}
-
-}
-declare module '2d-gaming/GameAreaLogic/object-category-setter' {
-	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
-	export class GameObjectCategory {
-	    gameObjects: ObjectArray;
-	    barriers: ObjectArray;
-	    nonBarriers: ObjectArray;
-	    constructor(gameObjects: ObjectArray);
-	    set(): void;
-	    clear(): void;
 	}
 
 }
