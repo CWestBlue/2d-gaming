@@ -16,4 +16,4 @@ MOVE GameAreaLogic\*.map dist\GameAreaLogic\
 XCOPY *.d.ts dist\
 XCOPY *.json dist\*
 cd dist
-REM npm publish
+npm publish
