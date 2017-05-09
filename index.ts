@@ -10,3 +10,4 @@ export * from './ObjectLogic/updateFrame.component';
 export * from './ObjectLogic/crashLogic.component';
 export * from './ObjectLogic/ammo.component';
 export * from './Design/objectDesign.component';
+export * from './GameAreaLogic/Object-category-setter';

@@ -117,8 +117,9 @@ declare module '2d-gaming/ObjectLogic/ammo.component' {
 	    constructor(item?: ObjectComponent, howMany?: number);
 	    multiply(): void;
 	    update(): void;
-	    remove(objects: ObjectArray): void;
+	    removeFromGame(): void;
 	    add(item: ObjectComponent): void;
+	    addMulti(items: ObjectComponent[]): void;
 	}
 
 }
@@ -140,7 +141,7 @@ declare module '2d-gaming/ObjectLogic/crashLogic.component' {
 	    constructor(object: ObjectArray, barriers: ObjectArray);
 	    private hitBarrier(object);
 	    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent): void;
-	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): any;
+	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string;
 	    leavesWith(object: ObjectComponent): any;
 	    newPos(barrier?: any): void;
 	}
@@ -187,6 +188,7 @@ declare module '2d-gaming/game.objects.component' {
 	    game: GameAreaObject;
 	    design: ObjectDesign;
 	    postion: PositionObject;
+	    isBarrier: boolean;
 	    origin: ObjectComponent;
 	    private barriers;
 	    bullets: ObjectArray;
@@ -202,11 +204,24 @@ declare module '2d-gaming/game.objects.component' {
 	}
 
 }
+declare module '2d-gaming/GameAreaLogic/object-category-setter' {
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	export class GameObjectCategory {
+	    gameObjects: ObjectArray;
+	    barriers: ObjectArray;
+	    nonBarriers: ObjectArray;
+	    constructor(gameObjects: ObjectArray);
+	    set(): void;
+	    clear(): void;
+	}
+
+}
 declare module '2d-gaming/game-area.object' {
 	import { IGameArea } from '2d-gaming/game.models';
 	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
 	import { CrashComponent } from '2d-gaming/ObjectLogic/crashLogic.component';
 	import { UpdateHandler } from '2d-gaming/ObjectLogic/updateFrame.component';
+	import { GameObjectCategory } from '2d-gaming/GameAreaLogic/object-category-setter';
 	export class GameAreaObject implements IGameArea {
 	    name: string;
 	    width: string;
@@ -221,8 +236,7 @@ declare module '2d-gaming/game-area.object' {
 	    crashHandler: CrashComponent;
 	    update: UpdateHandler;
 	    gameObjects: ObjectArray;
-	    noneBarriers: ObjectArray;
-	    barriers: ObjectArray;
+	    splitter: GameObjectCategory;
 	    area: HTMLElement;
 	    constructor(name: string, width: string, height: string);
 	    start(): void;

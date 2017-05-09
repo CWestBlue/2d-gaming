@@ -19,22 +19,14 @@ export class ObjectComponent implements IGameObject {
         public game: GameAreaObject, 
         public design: ObjectDesign, 
         public postion: PositionObject,
-        isBarrier: boolean,
+        public isBarrier: boolean,
         isObjectDependent: boolean
     ) {
         this.bullets = new ObjectArray();
         this.movement = new MovementComponent(postion);
         this.startingPos = new PositionObject(postion.xPos, postion.yPos);
         this.create();
-        if(isBarrier) {
-            this.game.barriers.add(this);
-        }
-        if(isBarrier === false) {
-            this.game.noneBarriers.add(this);
-        }
-        if(isObjectDependent === false) {
-            this.game.gameObjects.add(this)
-        }
+        this.game.gameObjects.add(this);
         this.update = new UpdateHandler(this.bullets);
         this.draw();
 

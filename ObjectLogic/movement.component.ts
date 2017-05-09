@@ -19,6 +19,10 @@ export class MovementComponent {
     moveDown(speed) {
         this.speedY = speed;
     }
+    clearMovement() {
+        this.speedY = 0;
+        this.speedX = 0;
+    }
     updateMovement() {
         this.position.xPos += this.speedX;
         this.position.yPos += this.speedY;

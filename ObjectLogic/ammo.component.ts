@@ -18,18 +18,25 @@ export class ObjectArray {
              this.item.game.gameObjects.add(res);
          });
      }
-     remove(objects: ObjectArray) {
+     // removes objects from the array paramater and this object
+     removeFromGame() {
          this.items.forEach(item => {
-            let i = _.findIndex(objects.items, (o) => { return o === item} )
-            let obj = objects.items[i];
-            item.game.context.clearRect(obj.postion.xPos, obj.postion.yPos, obj.design.width, obj.design.height)
-            objects.items.splice(i, 1);
-         })
-         this.items = [];
+            let i = _.findIndex(item.game.gameObjects.items, (o) => { return o === item} );
+            if(i >= 0) {
+                item.game.context.clearRect(item.postion.xPos, item.postion.yPos, item.design.width, item.design.height)
+                item.game.gameObjects.items.splice(i, 1);
 
+            }
+         })
      }
      add(item: ObjectComponent) {
          this.items.push(item);
+     }
+
+     addMulti(items: ObjectComponent[]) {
+         items.forEach(res => {
+             this.items.push(res);
+         })
      }
 
 }

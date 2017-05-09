@@ -22,9 +22,8 @@ export class CrashComponent {
             }
             return true;
         }
-        if (object.game.barriers.items.length > 0) {
-            object.game.barriers.items.forEach(obj => {
-                console.log(this.crashWithSide(object, obj));
+        if (this.barriers.items.length > 0) {
+            this.barriers.items.forEach(obj => {
                 if (!(this.crashWithSide(object, obj) === 'false')) {
                     this.addClip(this.crashWithSide(object, obj), object, obj);
                     return true;
