@@ -116,7 +116,7 @@ declare module '2d-gaming/ObjectLogic/ammo.component' {
 	    howMany: number;
 	    items: ObjectComponent[];
 	    constructor(item?: ObjectComponent, howMany?: number);
-	    multiply(): void;
+	    multiply(item: ObjectComponent, howMany: number): void;
 	    update(): void;
 	    removeFromGame(): void;
 	    add(item: ObjectComponent): void;

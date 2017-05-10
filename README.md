@@ -44,7 +44,7 @@ This is an Angular package fo developing 2d games in angular.
 
         ngOnInit() {
             this.gameObject = new GameArea();
-            this.gameObject.gamedoEveryFrame = (() => this.doPerFrame());
+            this.gameObject.component.doEveryFrame = (() => this.doPerFrame());
         }
 
         start() {
@@ -165,7 +165,14 @@ This is an Angular package fo developing 2d games in angular.
         this.movingObject = new item(this.gameObject.component)
     }
   ```
-  ##### Now Run And click Start
+##### Now Run And click Start
+
+## Objects In Package
+Initialize each object like this
+```typescript
+   var Init = new Object();
+```
+
 ### ObjectComponent
 |  Call      | Description         | Paramaters |
 | ----       |:-------------------:| ----------:|
@@ -234,3 +241,15 @@ This is an Angular package fo developing 2d games in angular.
 | gameObjects | all objects in game |
 | name        | name of the game |
 
+### ObjectArray
+###### This is a object that lets have multiple objects in one. Its main purpose is to create multiple intances of one object.
+| call    | Description         | Paramaters            |
+| ------- | ------------------- | --------------------- |
+| add()   | Adds an Object      | item: ObjectComponent |
+| addMulti() | Adds array of objects | items: ObjectComponent[] |
+| multiply() | adds multiple instances of one object | item: ObjectComponent, howMany: number |
+| removeFromGame() | removes its items from the game | none |
+
+| name    | Description     |
+| ------- | --------------- |
+| items   | array of objectcomponents |
