@@ -6,15 +6,16 @@ import { MovementComponent } from './ObjectLogic/movement.component';
 import { ObjectArray } from './ObjectLogic/ammo.component';
 import { PositionObject } from './ObjectLogic/postion.component';
 import { UpdateHandler } from './ObjectLogic/updateFrame.component';
-export class ObjectComponent implements IGameObject {
+export class ObjectComponent extends MovementComponent implements IGameObject  {
     origin: ObjectComponent;
     private barriers: ObjectArray; 
     bullets: ObjectArray;
     ctx: CanvasRenderingContext2D;
-    startingPos: PositionObject;
+    // startingPos: PositionObject;
     private update: UpdateHandler;
     score: number = 1;
-    movement: MovementComponent;
+    // movement: MovementComponent;
+    newPath: IPath;
     constructor( 
         public game: GameAreaObject, 
         public design: ObjectDesign, 
@@ -22,14 +23,15 @@ export class ObjectComponent implements IGameObject {
         public isBarrier: boolean,
         isObjectDependent: boolean
     ) {
+        super(postion)
         this.bullets = new ObjectArray();
-        this.movement = new MovementComponent(postion);
-        this.startingPos = new PositionObject(postion.xPos, postion.yPos);
+        // this.movement = new MovementComponent(postion);
+        // this.startingPos = new PositionObject(postion.xPos, postion.yPos);
         this.create();
         this.game.gameObjects.add(this);
         this.update = new UpdateHandler(this.bullets);
         this.draw();
-
+        
     }
          draw() {
         switch (this.design.shape) {
@@ -64,7 +66,7 @@ export class ObjectComponent implements IGameObject {
         //     infinit: false
         // }
         // this.bullets.push(arrow);
-        object.movement.newPos = {
+        object.newPos = {
             x: x,
             y: y,
             speed: speed,
@@ -91,10 +93,10 @@ export class ObjectComponent implements IGameObject {
 
     // }
     private create() {
-        this.movement.speedX = 0;
-        this.movement.speedY = 0;
-        this.movement.gravity = this.game.gravity;
-        this.movement.speedY = 0;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.gravity = this.game.gravity;
+        this.speedY = 0;
         this.ctx = this.game.context;
     }
 }

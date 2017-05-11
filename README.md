@@ -104,7 +104,7 @@ This is an Angular package fo developing 2d games in angular.
 
     onKeyup(e: KeyboardEvent) {
         const code = e.keyCode;
-        this.playerObject.component.movement.clearMovement();
+        this.playerObject.component.clearMovement();
     }
 
     @HostListener('document:keydown', ['$event'])
@@ -113,19 +113,19 @@ This is an Angular package fo developing 2d games in angular.
         const code = e.keyCode;
         // D Key
       if (code === 68) {
-          this.playerObject.component.movement.moveRight(1.5); // move right
+          this.playerObject.component.moveRight(1.5); // move right
       }
       // A Key
       if (code === 65) {
-          this.playerObject.component.movement.moveLeft(1.5); //move left
+          this.playerObject.component.moveLeft(1.5); //move left
       }
       // W Key
       if (code === 87) {
-          this.playerObject.movement.moveUp(1.5); // move up
+          this.playerObject.moveUp(1.5); // move up
       }
       // S Key
       if (code === 83) {
-          this.playerObject.component.movement.moveDown(1.5); // move down
+          this.playerObject.component.moveDown(1.5); // move down
       }
     }
   ```
@@ -144,7 +144,7 @@ This is an Angular package fo developing 2d games in angular.
             this.position = new PositionObject(100, 100); // create a position object. we will add this to our object
             this.component = new ObjectComponent(this.game, this.design, this.position) // add the design and position to the object.
             // we inject a gameObject into the constructor so the object can know what game it belongs to
-            this.component.movement.newPath = {
+            this.component.newPath = {
                 x: 200, // New X Pos
                 y: 200, // New Y Pos
                 speed: 1, // Speed It Moves At

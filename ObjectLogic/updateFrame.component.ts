@@ -7,7 +7,7 @@ export class UpdateHandler {
      update() {
          this.objects.items.forEach(object => {
              object.draw();
-             object.movement.updateMovement();
+             object.updateMovement();
          })
      }
 }

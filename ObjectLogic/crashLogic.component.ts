@@ -12,10 +12,10 @@ export class CrashComponent {
         let bottom = object.game.canvas.height
         if (this.leavesWith(object)) {
             switch (this.leavesWith(object)) {
-                case 'right': object.postion.xPos = object.game.canvas.width - object.design.width; object.movement.speedX = 0; break;
+                case 'right': object.postion.xPos = object.game.canvas.width - object.design.width; object.speedX = 0; break;
                 case 'left': object.postion.xPos = 0; break;
-                case 'bottom': object.postion.yPos = object.game.canvas.height - object.design.height; object.movement.speedY = 0;
-                    object.movement.speedY = 0;
+                case 'bottom': object.postion.yPos = object.game.canvas.height - object.design.height; object.speedY = 0;
+                    object.speedY = 0;
                     // this.gravity = 0;
                     break;
                 case 'top': object.postion.yPos = 0; break;
@@ -112,7 +112,7 @@ export class CrashComponent {
                 if (!(this.leavesWith(res) === 'bottom')) {
                     return;
                 } else {
-                    res.movement.speedY = 0;
+                    res.speedY = 0;
                 }
             }
         }
