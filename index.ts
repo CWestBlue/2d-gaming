@@ -11,3 +11,5 @@ export * from './ObjectLogic/crashLogic.component';
 export * from './ObjectLogic/ammo.component';
 export * from './Design/objectDesign.component';
 export * from './GameAreaLogic/object-category-setter';
+export * from './ObjectLogic/groupItem';
+export * from './ObjectLogic/comparer';

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ObjectComponent } from '../game.objects.component';
 import * as _ from 'lodash';
+import { PositionObject } from './postion.component';
+import { ObjectDesign } from '../Design/objectDesign.component';
+import { GameAreaObject } from '../game-area.object';
 export class ObjectArray {
     howMany: number;
-    items: ObjectComponent[] = []
+    items: any[] = []
     constructor(public item?: ObjectComponent, howMany?: number) {
         this.howMany = howMany;
         if (item && howMany) {
@@ -18,26 +21,20 @@ export class ObjectArray {
             this.items.push(this.item);
         }
     }
-    update() {
-        this.items.forEach(res => {
-            this.item.game.gameObjects.add(res);
-        });
+    add(item: any) {
+        this.items.push(item);
     }
     // removes objects from the array paramater and this object
     removeFromGame() {
         this.items.forEach(item => {
-            let i = _.findIndex(item.game.gameObjects.items, (o) => { return o === item });
+            let i = _.findIndex(item.game.gameObjects, (o) => { return o === item });
             if (i >= 0) {
-                item.game.context.clearRect(item.postion.xPos, item.postion.yPos, item.design.width, item.design.height)
-                item.game.gameObjects.items.splice(i, 1);
+                item.game.context.clearRect(item.xPos, item.yPos, item.design.width, item.design.height)
+                item.game.gameObjects.splice(i, 1);
 
             }
         })
     }
-    add(item: ObjectComponent) {
-        this.items.push(item);
-    }
-
     addMulti(items: ObjectComponent[]) {
         items.forEach(res => {
             this.items.push(res);

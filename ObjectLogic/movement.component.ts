@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IPath } from '../game.models';
 import { PositionObject } from './postion.component'
-export class MovementComponent {
+export class MovementComponent extends PositionObject{
     speedY: number;
     speedX: number;
     gravity: number;
     constructor( public position: PositionObject, public newPos?: IPath ) {
+        super(position.xPos, position.yPos)
     }
     moveRight(speed) {
         this.speedX = speed;
@@ -24,16 +25,17 @@ export class MovementComponent {
         this.speedX = 0;
     }
     updateMovement() {
-        this.position.xPos += this.speedX;
-        this.position.yPos += this.speedY;
+        this.xPos += this.speedX;
+        this.yPos += this.speedY;
         this.speedY += this.gravity;
         if(this.newPos) {
             this.travelpath();
         }
+        
     }
     private travelpath() {
-            let deltaX = this.newPos.x - this.position.xPos;
-            let deltaY = this.newPos.y - this.position.yPos;
+            let deltaX = this.newPos.x - this.xPos;
+            let deltaY = this.newPos.y - this.yPos;
             let angle = Math.atan2(deltaY, deltaX);
             this.speedX = this.newPos.speed * Math.cos(angle);
             this.speedY = this.newPos.speed * Math.sin(angle);

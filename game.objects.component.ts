@@ -9,7 +9,7 @@ import { UpdateHandler } from './ObjectLogic/updateFrame.component';
 export class ObjectComponent extends MovementComponent implements IGameObject  {
     origin: ObjectComponent;
     private barriers: ObjectArray; 
-    bullets: ObjectArray;
+    bullets: any[] = [];
     ctx: CanvasRenderingContext2D;
     // startingPos: PositionObject;
     private update: UpdateHandler;
@@ -21,14 +21,12 @@ export class ObjectComponent extends MovementComponent implements IGameObject  {
         public design: ObjectDesign, 
         public postion: PositionObject,
         public isBarrier: boolean,
-        isObjectDependent: boolean
-    ) {
+     ) {
         super(postion)
-        this.bullets = new ObjectArray();
-        // this.movement = new MovementComponent(postion);
+       // this.movement = new MovementComponent(postion);
         // this.startingPos = new PositionObject(postion.xPos, postion.yPos);
         this.create();
-        this.game.gameObjects.add(this);
+        this.game.gameObjects.push(this);
         this.update = new UpdateHandler(this.bullets);
         this.draw();
         
@@ -38,22 +36,22 @@ export class ObjectComponent extends MovementComponent implements IGameObject  {
             case 'image':
             // console.log(this.design.image);
                 this.ctx.drawImage(this.design.image,
-                    this.postion.xPos,
-                    this.postion.yPos,
+                    this.xPos,
+                    this.yPos,
                     this.design.width, this.design.height); break;
             case 'text': this.ctx.font = this.design.width + " " + this.design.height;
                 this.ctx.fillStyle = this.design.color;
-                this.ctx.fillText(this.design.text, this.postion.xPos, this.postion.yPos); break;
+                this.ctx.fillText(this.design.text, this.xPos, this.yPos); break;
             case 'circle':
                 this.ctx.beginPath();
-                this.ctx.arc(this.postion.xPos + this.design.centerX, this.postion.yPos + this.design.centerY, this.design.radius, 0, 2 * Math.PI, false);
+                this.ctx.arc(this.xPos + this.design.centerX, this.yPos + this.design.centerY, this.design.radius, 0, 2 * Math.PI, false);
                 this.ctx.fillStyle = this.design.color;
                 this.ctx.fill();
                 break;
             default: this.ctx.fillStyle = this.design.color;
-                this.ctx.fillRect(this.postion.xPos, this.postion.yPos, this.design.width, this.design.height); break;
+                this.ctx.fillRect(this.xPos, this.yPos, this.design.width, this.design.height); break;
         };
-        this.update.update();
+        // this.update.update();
     }
     shoot(x, y, speed, object: ObjectComponent) {
         // console.log('shoot')
@@ -72,7 +70,7 @@ export class ObjectComponent extends MovementComponent implements IGameObject  {
             speed: speed,
             infinit: true
         }
-        this.bullets.add(object);
+        this.bullets.push(object);
     }
     // update() {
     //     this.barrier = barrier;

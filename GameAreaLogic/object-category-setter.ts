@@ -1,24 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ObjectArray } from '../ObjectLogic/ammo.component';
+import { GroupItem } from '../ObjectLogic/groupItem';
+import { groupPos } from '../ObjectLogic/comparer';
 export class GameObjectCategory {
-    barriers: ObjectArray;
+    barriers: any[] = [];
     nonBarriers: ObjectArray;
-    constructor(public gameObjects: ObjectArray) { 
-        this.barriers = new ObjectArray();
+    groupObjects: any[] = [];
+    constructor(public gameObjects: any[]) { 
         this.nonBarriers = new ObjectArray();
-    }
+     }
     set() {
-        this.gameObjects.items.forEach(item => {
+        this.gameObjects.forEach(item => {
             if(item.isBarrier === true) {
-                this.barriers.add(item)
+                this.barriers.push(item)
             } else {
                 this.nonBarriers.add(item)
             }
         })
     }
-    clear() {
-        this.barriers.items = [];
+    clear() {this.barriers = [];
         this.nonBarriers.items = [];
+    }
+    update() {
+        this.groupObjects.forEach((item: groupPos) => {
+            item.updatePos();
+        })
     }
 
 }

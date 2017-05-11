@@ -39,6 +39,8 @@ export interface IMovement {
     
 }
 
+
+
 export interface IGamePhysics {
     gravity: number;
     windStrength: number;

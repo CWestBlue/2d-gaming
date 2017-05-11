@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ObjectComponent } from '../game.objects.component';
 import { ObjectArray } from './ammo.component';
+import { GameObjectCategory } from '../GameAreaLogic/object-category-setter';
+import * as _ from 'lodash';
 
 export class CrashComponent {
-    constructor(public object: ObjectArray, public barriers: ObjectArray ) { 
+    constructor(public splitter: GameObjectCategory ) { 
 
     }
 
@@ -12,18 +14,18 @@ export class CrashComponent {
         let bottom = object.game.canvas.height
         if (this.leavesWith(object)) {
             switch (this.leavesWith(object)) {
-                case 'right': object.postion.xPos = object.game.canvas.width - object.design.width; object.speedX = 0; break;
-                case 'left': object.postion.xPos = 0; break;
-                case 'bottom': object.postion.yPos = object.game.canvas.height - object.design.height; object.speedY = 0;
+                case 'right': object.xPos = object.game.canvas.width - object.design.width; object.speedX = 0; break;
+                case 'left': object.xPos = 0; break;
+                case 'bottom': object.yPos = object.game.canvas.height - object.design.height; object.speedY = 0;
                     object.speedY = 0;
                     // this.gravity = 0;
                     break;
-                case 'top': object.postion.yPos = 0; break;
+                case 'top': object.yPos = 0; break;
             }
             return true;
         }
-        if (this.barriers.items.length > 0) {
-            this.barriers.items.forEach(obj => {
+        if (this.splitter.barriers.length > 0) {
+            this.splitter.barriers.forEach(obj => {
                 if (!(this.crashWithSide(object, obj) === 'false')) {
                     this.addClip(this.crashWithSide(object, obj), object, obj);
                     return true;
@@ -36,21 +38,34 @@ export class CrashComponent {
     addClip(side: string, object: ObjectComponent, barrier: ObjectComponent) {
         // console.log(side);
         switch(side) {
-            case 'top': object.postion.yPos = barrier.postion.yPos - object.design.height; break;
-            case 'bottom': object.postion.yPos = barrier.postion.yPos + barrier.design.height; break;
-            case 'right': object.postion.xPos = barrier.postion.xPos + barrier.design.width; break;
-            case 'left': object.postion.xPos = barrier.postion.xPos - object.design.width; break;
+            case 'top': object.yPos = barrier.yPos - object.design.height; break;
+            case 'bottom': object.yPos = barrier.yPos + barrier.design.height; break;
+            case 'right': object.xPos = barrier.xPos + barrier.design.width; break;
+            case 'left': object.xPos = barrier.xPos - object.design.width; break;
         }
     }
+    crash(object: ObjectComponent): Boolean {
+        let op: boolean;
+        _.forEach(this.splitter.barriers, (o) => {
+            switch(this.crashWithSide(object, o)) {
+                case 'false': op = false; break;
+                case 'top': op = true; break;
+                case 'bottom': op = true; break;
+                case 'left': op = true; break;
+                case 'right': op = true; break;
+                default:  op = true; break;
+            }})
+            return op;
+    }
     crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string {
-        let myleft = currentObj.postion.xPos;
-        let myright = currentObj.postion.xPos + (currentObj.design.width);
-        let mytop = currentObj.postion.yPos;
-        let mybottom = currentObj.postion.yPos + (currentObj.design.height);
-        let otherleft = otherobj.postion.xPos;
-        let otherright = otherobj.postion.xPos + (otherobj.design.width);
-        let othertop = otherobj.postion.yPos;
-        let otherbottom = otherobj.postion.yPos + (otherobj.design.height);
+        let myleft = currentObj.xPos;
+        let myright = currentObj.xPos + (currentObj.design.width);
+        let mytop = currentObj.yPos;
+        let mybottom = currentObj.yPos + (currentObj.design.height);
+        let otherleft = otherobj.xPos;
+        let otherright = otherobj.xPos + (otherobj.design.width);
+        let othertop = otherobj.yPos;
+        let otherbottom = otherobj.yPos + (otherobj.design.height);
         if ((mybottom < othertop) ||
             (mytop > otherbottom) ||
             (myright < otherleft) ||
@@ -76,10 +91,10 @@ export class CrashComponent {
         }
     }
     leavesWith(object: ObjectComponent): any {
-        let myleft = object.postion.xPos;
-        let myright = object.postion.xPos + (object.design.width);
-        let mytop = object.postion.yPos;
-        let mybottom = object.postion.yPos + (object.design.height);
+        let myleft = object.xPos;
+        let myright = object.xPos + (object.design.width);
+        let mytop = object.yPos;
+        let mybottom = object.yPos + (object.design.height);
         let otherleft = 0;
         let otherright = object.game.canvas.width
         let othertop = 0;
@@ -105,7 +120,7 @@ export class CrashComponent {
         }
     }
          newPos(barrier?) {
-        this.object.items.forEach( res =>
+        this.splitter.nonBarriers.items.forEach( res =>
         {
         if (barrier) {
             if (this.hitBarrier(res)) {

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ObjectArray } from './ammo.component'
 export class UpdateHandler {
-    constructor(public objects: ObjectArray) {
+    constructor(public objects: any[]) {
      }
 
      update() {
-         this.objects.items.forEach(object => {
-             object.draw();
+         if(this.objects){
+         this.objects.forEach(object => {
+            object.draw();
              object.updateMovement();
          })
+        }
      }
 }

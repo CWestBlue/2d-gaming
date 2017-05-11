@@ -92,7 +92,7 @@ declare module '2d-gaming/ObjectLogic/postion.component' {
 declare module '2d-gaming/ObjectLogic/movement.component' {
 	import { IPath } from '2d-gaming/game.models';
 	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
-	export class MovementComponent {
+	export class MovementComponent extends PositionObject {
 	    position: PositionObject;
 	    newPos: IPath;
 	    speedY: number;
@@ -106,45 +106,6 @@ declare module '2d-gaming/ObjectLogic/movement.component' {
 	    clearMovement(): void;
 	    updateMovement(): void;
 	    private travelpath();
-	}
-
-}
-declare module '2d-gaming/ObjectLogic/ammo.component' {
-	import { ObjectComponent } from '2d-gaming/game.objects.component';
-	export class ObjectArray {
-	    item: ObjectComponent;
-	    howMany: number;
-	    items: ObjectComponent[];
-	    constructor(item?: ObjectComponent, howMany?: number);
-	    multiply(item: ObjectComponent, howMany: number): void;
-	    update(): void;
-	    removeFromGame(): void;
-	    add(item: ObjectComponent): void;
-	    addMulti(items: ObjectComponent[]): void;
-	}
-
-}
-declare module '2d-gaming/ObjectLogic/updateFrame.component' {
-	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
-	export class UpdateHandler {
-	    objects: ObjectArray;
-	    constructor(objects: ObjectArray);
-	    update(): void;
-	}
-
-}
-declare module '2d-gaming/ObjectLogic/crashLogic.component' {
-	import { ObjectComponent } from '2d-gaming/game.objects.component';
-	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
-	export class CrashComponent {
-	    object: ObjectArray;
-	    barriers: ObjectArray;
-	    constructor(object: ObjectArray, barriers: ObjectArray);
-	    private hitBarrier(object);
-	    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent): void;
-	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string;
-	    leavesWith(object: ObjectComponent): any;
-	    newPos(barrier?: any): void;
 	}
 
 }
@@ -164,15 +125,85 @@ declare module '2d-gaming/Design/objectDesign.component' {
 	}
 
 }
+declare module '2d-gaming/ObjectLogic/ammo.component' {
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	export class ObjectArray {
+	    item: ObjectComponent;
+	    howMany: number;
+	    items: any[];
+	    constructor(item?: ObjectComponent, howMany?: number);
+	    multiply(item: ObjectComponent, howMany: number): void;
+	    add(item: any): void;
+	    removeFromGame(): void;
+	    addMulti(items: ObjectComponent[]): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/updateFrame.component' {
+	export class UpdateHandler {
+	    objects: any[];
+	    constructor(objects: any[]);
+	    update(): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/comparer' {
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	export class groupPos {
+	    centerP: ObjectComponent;
+	    currentPos: ObjectComponent;
+	    difX: number;
+	    difY: number;
+	    constructor(centerP: ObjectComponent, currentPos: ObjectComponent, difX: number, difY: number);
+	    updatePos(): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/groupItem' {
+	import { ObjectDesign } from '2d-gaming/Design/objectDesign.component';
+	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	import { GameAreaObject } from '2d-gaming/game-area.object';
+	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
+	export class GroupItem extends ObjectArray {
+	    game: GameAreaObject;
+	    p: PositionObject;
+	    isBarrier: boolean;
+	    centerDot: ObjectComponent;
+	    difPos: PositionObject;
+	    center: ObjectComponent;
+	    constructor(game: GameAreaObject, p: PositionObject, isBarrier: boolean);
+	    addToGroup(p: PositionObject, d: ObjectDesign): void;
+	    getLocation(p: ObjectComponent): void;
+	}
+
+}
 declare module '2d-gaming/GameAreaLogic/object-category-setter' {
 	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
 	export class GameObjectCategory {
-	    gameObjects: ObjectArray;
-	    barriers: ObjectArray;
+	    gameObjects: any[];
+	    barriers: any[];
 	    nonBarriers: ObjectArray;
-	    constructor(gameObjects: ObjectArray);
+	    groupObjects: any[];
+	    constructor(gameObjects: any[]);
 	    set(): void;
 	    clear(): void;
+	    update(): void;
+	}
+
+}
+declare module '2d-gaming/ObjectLogic/crashLogic.component' {
+	import { ObjectComponent } from '2d-gaming/game.objects.component';
+	import { GameObjectCategory } from '2d-gaming/GameAreaLogic/object-category-setter';
+	export class CrashComponent {
+	    splitter: GameObjectCategory;
+	    constructor(splitter: GameObjectCategory);
+	    private hitBarrier(object);
+	    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent): void;
+	    crash(object: ObjectComponent): Boolean;
+	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string;
+	    leavesWith(object: ObjectComponent): any;
+	    newPos(barrier?: any): void;
 	}
 
 }
@@ -189,6 +220,8 @@ declare module '2d-gaming' {
 	export * from '2d-gaming/ObjectLogic/ammo.component';
 	export * from '2d-gaming/Design/objectDesign.component';
 	export * from '2d-gaming/GameAreaLogic/object-category-setter';
+	export * from '2d-gaming/ObjectLogic/groupItem';
+	export * from '2d-gaming/ObjectLogic/comparer';
 
 }
 declare module '2d-gaming/game.objects.component' {
@@ -196,7 +229,6 @@ declare module '2d-gaming/game.objects.component' {
 	import { IPath, IGameObject } from '2d-gaming';
 	import { ObjectDesign } from '2d-gaming/Design/objectDesign.component';
 	import { MovementComponent } from '2d-gaming/ObjectLogic/movement.component';
-	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
 	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
 	export class ObjectComponent extends MovementComponent implements IGameObject {
 	    game: GameAreaObject;
@@ -205,12 +237,12 @@ declare module '2d-gaming/game.objects.component' {
 	    isBarrier: boolean;
 	    origin: ObjectComponent;
 	    private barriers;
-	    bullets: ObjectArray;
+	    bullets: any[];
 	    ctx: CanvasRenderingContext2D;
 	    private update;
 	    score: number;
 	    newPath: IPath;
-	    constructor(game: GameAreaObject, design: ObjectDesign, postion: PositionObject, isBarrier: boolean, isObjectDependent: boolean);
+	    constructor(game: GameAreaObject, design: ObjectDesign, postion: PositionObject, isBarrier: boolean);
 	    draw(): void;
 	    shoot(x: any, y: any, speed: any, object: ObjectComponent): void;
 	    private create();
@@ -219,7 +251,6 @@ declare module '2d-gaming/game.objects.component' {
 }
 declare module '2d-gaming/game-area.object' {
 	import { IGameArea } from '2d-gaming/game.models';
-	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
 	import { CrashComponent } from '2d-gaming/ObjectLogic/crashLogic.component';
 	import { UpdateHandler } from '2d-gaming/ObjectLogic/updateFrame.component';
 	import { GameObjectCategory } from '2d-gaming/GameAreaLogic/object-category-setter';
@@ -236,12 +267,13 @@ declare module '2d-gaming/game-area.object' {
 	    interval: any;
 	    crashHandler: CrashComponent;
 	    update: UpdateHandler;
-	    gameObjects: ObjectArray;
+	    gameObjects: any[];
 	    splitter: GameObjectCategory;
 	    area: HTMLElement;
 	    constructor(name: string, width: string, height: string);
 	    start(): void;
 	    clear(): void;
+	    private perFrame();
 	    stop(): void;
 	    everyinterval(frames: number): boolean;
 	}

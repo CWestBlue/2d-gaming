@@ -17,4 +17,4 @@ XCOPY *.d.ts dist\
 XCOPY *.json dist\*
 XCOPY *.md dist\*
 cd dist
-npm publish
+REM npm publish
