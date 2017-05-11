@@ -193,12 +193,12 @@ declare module '2d-gaming' {
 }
 declare module '2d-gaming/game.objects.component' {
 	import { GameAreaObject } from '2d-gaming/game-area.object';
-	import { IGameObject } from '2d-gaming';
+	import { IPath, IGameObject } from '2d-gaming';
 	import { ObjectDesign } from '2d-gaming/Design/objectDesign.component';
 	import { MovementComponent } from '2d-gaming/ObjectLogic/movement.component';
 	import { ObjectArray } from '2d-gaming/ObjectLogic/ammo.component';
 	import { PositionObject } from '2d-gaming/ObjectLogic/postion.component';
-	export class ObjectComponent implements IGameObject {
+	export class ObjectComponent extends MovementComponent implements IGameObject {
 	    game: GameAreaObject;
 	    design: ObjectDesign;
 	    postion: PositionObject;
@@ -207,10 +207,9 @@ declare module '2d-gaming/game.objects.component' {
 	    private barriers;
 	    bullets: ObjectArray;
 	    ctx: CanvasRenderingContext2D;
-	    startingPos: PositionObject;
 	    private update;
 	    score: number;
-	    movement: MovementComponent;
+	    newPath: IPath;
 	    constructor(game: GameAreaObject, design: ObjectDesign, postion: PositionObject, isBarrier: boolean, isObjectDependent: boolean);
 	    draw(): void;
 	    shoot(x: any, y: any, speed: any, object: ObjectComponent): void;
