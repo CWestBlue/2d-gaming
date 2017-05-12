@@ -44,19 +44,6 @@ export class CrashComponent {
             case 'left': object.xPos = barrier.xPos - object.design.width; break;
         }
     }
-    crash(object: ObjectComponent): Boolean {
-        let op: boolean;
-        _.forEach(this.splitter.barriers, (o) => {
-            switch(this.crashWithSide(object, o)) {
-                case 'false': op = false; break;
-                case 'top': op = true; break;
-                case 'bottom': op = true; break;
-                case 'left': op = true; break;
-                case 'right': op = true; break;
-                default:  op = true; break;
-            }})
-            return op;
-    }
     crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string {
         let myleft = currentObj.xPos;
         let myright = currentObj.xPos + (currentObj.design.width);

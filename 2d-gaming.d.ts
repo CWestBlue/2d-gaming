@@ -172,7 +172,7 @@ declare module '2d-gaming/ObjectLogic/groupItem' {
 	    centerDot: ObjectComponent;
 	    difPos: PositionObject;
 	    center: ObjectComponent;
-	    constructor(game: GameAreaObject, p: PositionObject, isBarrier: boolean);
+	    constructor(game: GameAreaObject, p: PositionObject, isBarrier: boolean, width: number, height: number);
 	    addToGroup(p: PositionObject, d: ObjectDesign): void;
 	    getLocation(p: ObjectComponent): void;
 	}
@@ -188,7 +188,6 @@ declare module '2d-gaming/GameAreaLogic/object-category-setter' {
 	    constructor(gameObjects: any[]);
 	    set(): void;
 	    clear(): void;
-	    update(): void;
 	}
 
 }
@@ -200,7 +199,6 @@ declare module '2d-gaming/ObjectLogic/crashLogic.component' {
 	    constructor(splitter: GameObjectCategory);
 	    private hitBarrier(object);
 	    addClip(side: string, object: ObjectComponent, barrier: ObjectComponent): void;
-	    crash(object: ObjectComponent): Boolean;
 	    crashWithSide(currentObj: ObjectComponent, otherobj: ObjectComponent): string;
 	    leavesWith(object: ObjectComponent): any;
 	    newPos(barrier?: any): void;

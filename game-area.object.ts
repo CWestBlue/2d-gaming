@@ -6,6 +6,7 @@ import { CrashComponent } from './ObjectLogic/crashLogic.component';
 import { UpdateHandler } from './ObjectLogic/updateFrame.component';
 import * as _ from 'lodash';
 import { GameObjectCategory } from './GameAreaLogic/object-category-setter';
+import { groupPos } from './ObjectLogic/comparer';
 
 export class GameAreaObject implements IGameArea {
     doEveryFrame: () => void;
@@ -48,12 +49,15 @@ export class GameAreaObject implements IGameArea {
     }
     private perFrame() {
         this.clear(); 
-        this.splitter.update(); 
         this.frame += 1;  
         this.doEveryFrame(); 
         this.splitter.clear(); 
         this.splitter.set(); 
         this.crashHandler.newPos(true); 
+        // this.splitter.update(); 
+        this.splitter.groupObjects.forEach((res: groupPos) => {
+            res.updatePos();
+        })
         this.update.update();
     }
     stop() {

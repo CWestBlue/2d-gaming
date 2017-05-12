@@ -9,9 +9,9 @@ export class GroupItem extends ObjectArray {
     centerDot: ObjectComponent; 
     difPos: PositionObject;
     center: ObjectComponent;
-       constructor(public game: GameAreaObject, public p: PositionObject, public isBarrier: boolean) { 
+       constructor(public game: GameAreaObject, public p: PositionObject, public isBarrier: boolean, width: number, height: number) { 
         super()
-        let dotD = new ObjectDesign(12,12,'circle', 'black');
+        let dotD = new ObjectDesign(width, height,'square', 'white');
         this.centerDot = new ObjectComponent(game, dotD, p, isBarrier );
         
      }
@@ -21,8 +21,8 @@ export class GroupItem extends ObjectArray {
         this.items.push(o)
      }
      getLocation(p: ObjectComponent) {
-        let xDif = p.xPos - this.p.xPos;
-        let yDif = p.yPos - this.p.yPos;
+        let xDif = p.xPos - 0;
+        let yDif = p.yPos - 0;
         let posUpdate = new groupPos(this.centerDot, p, xDif, yDif);
         this.game.splitter.groupObjects.push(posUpdate);
 

@@ -21,10 +21,10 @@ export class GameObjectCategory {
     clear() {this.barriers = [];
         this.nonBarriers.items = [];
     }
-    update() {
-        this.groupObjects.forEach((item: groupPos) => {
-            item.updatePos();
-        })
-    }
+    // update() {
+    //     this.groupObjects.forEach((item: groupPos) => {
+    //         item.updatePos();
+    //     })
+    // }
 
 }
